@@ -1,6 +1,8 @@
 #summary LDAP Authentication in Java.
 #labels Phase-Implementation,Phase-Support
 
+<wiki:toc max_depth="5" />
+
 = LDAP Authentication in Java =
 
 Usually, LDAP authentication is required for enterprise applications. Of course, you can use some LDAP Java library to achieve this. But it is very easy to implement in simple Java code. Here, I like to illustrate how to implement this using Java and Spring with Ldaps support.  
