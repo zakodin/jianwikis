@@ -1,0 +1,120 @@
+#summary LDAP Authentication in Java.
+#labels Phase-Implementation,Phase-Support
+
+= LDAP Authentication in Java =
+
+Usually, LDAP authentication is required for enterprise applications. Of course, you can use some LDAP Java library to achieve this. But it is very easy to implement in simple Java code. Here, I like to illustrate how to implement this using Java and Spring with Ldaps support.  
+
+= Authentication Mechanism =
+
+Ldap authentication usually first uses a manager account to bind to the Ldap server and this manager account should have the privilege to search users in the Ldap server. Once the user is found, use the provided password to bind to that user. The the bind is successful, the user is authenticated, otherwise, the authentication is failed.
+
+== Context Source ==
+
+First, we need a ContextSource class to hold all the following information,
+
+{{{
+public class ContextSource {
+
+	private String contextFactory;
+	
+	private String providerUrl;
+	
+	private String authenticationType;
+	
+	private String managerDN;
+	
+	private String managerPassword;
+	
+	private String base;
+
+        private String securityProtocol;
+}
+}}}
+
+Here the setters and getters are skipped here.
+
+== Ldap Search ==
+
+To search Users from the Ldap server, we need a set of interfaces and classes.
+
+=== Ldap Result Set ===
+
+{{{
+public class LdapResultSet {
+	Map<String, Object> attributeMap;
+	
+	/**
+	 * @return the attributeMap
+	 */
+	public final Map<String, Object> getAttributeMap() {
+		return attributeMap;
+	}
+
+	/**
+	 * @param attributeMap the attributeMap to set
+	 */
+	public final void setAttributeMap(Map<String, Object> attributeMap) {
+		this.attributeMap = attributeMap;
+	}
+
+	public Object getAttribute(String attribute){
+		
+		if(attributeMap == null){
+			
+			return null;
+		}else{
+			
+			return attributeMap.get(attribute);
+		}
+	}
+}
+}}}
+
+=== Ldap Result Set Builder ===
+
+{{{
+public interface LdapResultSetBuilder {
+	
+  LdapResultSet buildLdapResultSet(SearchResult result, String[] attributesToReturn) throws NamingException;
+}
+
+}}}
+
+=== Ldap Result Set Builder Implementation ===
+
+{{{
+public class LdapResultSetBuilderImpl extends I18NSupportImpl implements LdapResultSetBuilder 
+{
+	public LdapResultSet buildLdapResultSet(SearchResult result, String[] attributesToReturn) throws NamingException 
+	{
+		
+		if(result == null)
+			return null;
+		
+		LdapResultSet resultSet = new LdapResultSet();
+		Attributes attributes = result.getAttributes();
+		Map<String, Object> attributesMap = new HashMap<String, Object>();
+		
+		if(attributesToReturn == null){
+			
+			resultSet.setAttributeMap(null);
+		}else{
+			
+			for(String attribute : attributesToReturn){
+				Attribute attr = attributes.get(attribute);
+				if(attr != null)
+					attributesMap.put(attribute,  attr.get());
+				else
+					attributesMap.put(attribute,  null);
+			}
+			
+			resultSet.setAttributeMap(attributesMap);
+		}
+		
+		return resultSet;
+	}
+
+}
+
+}}}
