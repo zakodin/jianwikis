@@ -252,12 +252,11 @@ curl is a Linux tool and you can use it to send Http requests to a server includ
 }}}
 
 
-=== Self-Signed Cert Problem ===
+=== Hostname Verification Problem ===
 
-If you use a self-signed cert without binding to a host, some client may be picky about it because the client tries to validate the host, but only sees the email address. 
+If you use a self-signed cert, which does bind to a host, some client may be picky about it because the client tries to validate the host name, but only sees the email address. 
 
-One way to get around this is to ask Https to not validate the host name. You
-can achieve this using the following code,
+One way to get around this is to ask Https to not validate the host name. You can achieve this using the following code,
 
 {{{
 class NullHostnameVerifier implements HostnameVerifier {
@@ -267,7 +266,7 @@ class NullHostnameVerifier implements HostnameVerifier {
 }
 }}}
 
-and
+and ask HttpsURLConnection to not check host name,
 
 {{{
 HttpsURLConnection.setDefaultHostnameVerifier(new NullHostnameVerifier());
