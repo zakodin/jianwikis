@@ -1,0 +1,22 @@
+#summary Tomcat SSL with Apr.
+#labels Phase-Implementation,Phase-Support
+
+= Introduction =
+
+This article will introduce how to configure Tomcat to support SSL connection with Apr. The Apache Portable Runtime (APR) based Native library for Tomcat is used to optimize tomcat performance.
+
+== Tomcat SSL without APR ==
+
+Without APR, you can put everything into Java key store and the configuration is simple. You should turn on the SSL connector in server.xml as follows,
+
+{{{
+ <Connector port="8443"
+     maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+     enableLookups="false" disableUploadTimeout="true"
+     acceptCount="100" scheme="https" secure="true"
+     clientAuth="false" sslProtocol="TLS"
+     keystoreFile="conf/keystore.jks" keystorePass="keystore_password"
+     truststoreFile="conf/truststore.jks" truststorePass="truststore_password"/>
+}}}
+
+== Tomcat SSL with APR ==
