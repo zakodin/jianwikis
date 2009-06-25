@@ -184,7 +184,7 @@ Optionally, you can combine everything into one file as follows,
 [jfang@localhost]$ openssl pkcs12 -export -in server.crt -inkey server.key -out server.p12 -name "tomcat" -CAfile authorities.crt -caname root-ca.crt -chain
 Enter Export Password:
 Verifying - Enter Export Password:
-}}}}
+}}}
 
 === Configure SSL Connector ===
 
@@ -226,7 +226,10 @@ System.setProperty("javax.net.ssl.trustStoreType", this.trustStoreType);
 System.setProperty("javax.net.ssl.trustStorePassword", this.trustStorePassword);
 }}}
 
+== Test SSL ==
 
+
+=== Self-Signed Cert Problem ===
 
 If you use this cert, some client may be picky about it because the client
 tries to validate the host, but only sees the email address. 
@@ -234,18 +237,18 @@ tries to validate the host, but only sees the email address.
 One way to get around this is to ask Https to not validate the host name. You
 can achieve this using the following code
 
-<code>
+{{{
 class NullHostnameVerifier implements HostnameVerifier {
     public boolean verify(String hostname, SSLSession session) {
         return true;
     }
 }
+}}}
 
+{{{
 HttpsURLConnection.setDefaultHostnameVerifier(new NullHostnameVerifier());
-</code>
+}}}
 
-The Java doc for the above method could be found at
-
-http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/HttpsURLConnection.html
+The Java doc for HttpsURLConnection could be found [http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/HttpsURLConnection.html here]
 
 
