@@ -252,7 +252,7 @@ curl is a Linux tool and you can use it to send Http requests to a server includ
 }}}
 
 
-=== Hostname Verification Problem ===
+=== Host Name Verification Problem ===
 
 If you use a self-signed cert, which does bind to a host, some client may be picky about it because the client tries to validate the host name, but only sees the email address. 
 
