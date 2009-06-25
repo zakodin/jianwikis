@@ -20,3 +20,157 @@ Without APR, you can put everything into Java key store and the configuration is
 }}}
 
 == Tomcat SSL with APR ==
+
+With APR, you have to use openssl and have a different set of parameters in the SSL connector configuration. I will go over them in details.
+
+=== Check if APR is Available ===
+
+In Unix/Linux, you can check TOMCAT_HOME/native/lib to see if you have the native library files such as libtcnative-1.so.0.1.12 and libapr-1.so.0.3.3. To install the native library, you can install tomcat-native RPM or compile from source. Usually, the files under this native/lib directory are symbolic links and you need to check if they are really linked to the correct native library. For example,
+
+{{{
+[jfang@localhost lib]$ ldd libtcnative-1.so.0.1.12
+        linux-vdso.so.1 =>  (0x00007fff567ff000)
+        libssl.so.6 => not found
+        libcrypto.so.6 => not found
+        libapr-1.so.0 => /usr/lib64/libapr-1.so.0 (0x00007f564e1d8000)
+        libuuid.so.1 => /lib64/libuuid.so.1 (0x00007f564dfd4000)
+        librt.so.1 => /lib64/librt.so.1 (0x00007f564ddcb000)
+        libcrypt.so.1 => /lib64/libcrypt.so.1 (0x00007f564db94000)
+        libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f564d978000)
+        libdl.so.2 => /lib64/libdl.so.2 (0x00007f564d773000)
+        libc.so.6 => /lib64/libc.so.6 (0x00007f564d405000)
+        /lib64/ld-linux-x86-64.so.2 (0x0000003412e00000)
+        libfreebl3.so => /lib64/libfreebl3.so (0x00007f564d1a7000)
+}}}
+
+Obviously, the libssl.so.6 and libcrypto.so.6 are missing. You need to link them to the correct library files until the ldd command shows all dependent library files are linked correctly. If not, tomcat will use default Http11BaseProtocol instead of Http11AprProtocol.
+
+=== SSL Certs ===
+
+==== Cert CFG File ==
+
+You can first create a cert configuration file. Here, I use the following Tellurium-Cert.cfg file:
+
+{{{
+[jfang@localhost]$ cat Tellurium-Cert.cfg 
+ [ req ]
+ default_bits           = 1024
+ default_keyfile        = key.pem 
+ distinguished_name     = req_distinguished_name
+ attributes             = req_attributes
+ req_extensions         = v3_req
+ prompt                 = no
+
+ [ req_distinguished_name ]
+ C                      = US
+ ST                     = Tennessee
+ L                      = Knoxville
+ O                      = Tellurium Framework 
+ OU                     = Information Technology
+ CN                     = AppServer 
+ emailAddress           = John.Jian.Fang@tellurium.org
+
+ [ req_attributes ]
+ challengePassword              = P@ssw0rd
+
+ [ v3_req ]
+ #Extensions to add to a certificate request
+
+ basicConstraints = CA:FALSE
+ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+ subjectAltName = @alt_names
+
+ [alt_names]
+ DNS.1                  = appserver-vip.tellurium.org
+ DNS.2                  = appserver1.tellurium.org
+ DNS.3                  = appserver2.tellurium.org
+}}}
+
+Here, I assume that the server is a cluster with VIP appserver-vip.tellurium.org and physical nodes appserver1.tellurium.org and appserver2.tellurium.org.
+
+==== Generate Private Key and Cert Request ====
+
+{{{
+[jfang@localhost]$ openssl req -new -out cert.csr -config Tellurium-Cert.cfg
+Generating a 1024 bit RSA private key
+.........++++++
+....................................................................................................................................................................................................................................................++++++
+writing new private key to 'key.pem'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
+-----
+}}}
+
+After you create the cert request file cert.csr, you can send it to your CA to sign it or you can generate a self-signed certificate.
+
+==== Self-Signed Certificate ====
+
+First, export the private key to unencrypted one.
+
+{{{
+[jfang@localhost]$ openssl rsa -in key.pem -out server.key
+Enter pass phrase for key.pem:
+writing RSA key
+}}}
+
+Then, create a self-signed certificate 
+
+{{{
+
+}}}
+
+If you use this cert, some client may be picky about it because the client
+tries to validate the host, but only sees the email address. 
+
+One way to get around this is to ask Https to not validate the host name. You
+can achieve this using the following code
+
+<code>
+class NullHostnameVerifier implements HostnameVerifier {
+    public boolean verify(String hostname, SSLSession session) {
+        return true;
+    }
+}
+
+HttpsURLConnection.setDefaultHostnameVerifier(new NullHostnameVerifier());
+</code>
+
+The Java doc for the above method could be found at
+
+http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/HttpsURLConnection.html
+
+But if you try to use SSL with APR, the above configuration will not work, you have
+to use openssl with a different configuration 
+
+<code>
+<Connector port="8443" maxHttpHeaderSize="8192"
+              maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+              enableLookups="false" disableUploadTimeout="true"
+              acceptCount="100" scheme="https" secure="true"
+              clientAuth="false"
+              sslProtocol="TLS"
+              SSLEngine="on"
+              SSLEnabled="true"
+              SSLPassword="private_key_password"
+              SSLCertificateFile="${SERVICE_HOME}/conf/cert.pem"
+              SSLCertificateKeyFile="${SERVICE_HOME}/conf/key.pem"
+              SSLCACertificateFile="${SERVICE_HOME}/conf/ca.cert"
+              SSLCertificateChainFile="${SERVICE_HOME}/conf/ca.cert"/>
+</code>
+
+For the trust store, you need to pass in the following environment variables either from command line,
+
+<code>
+-Djavax.net.ssl.trustStorePassword=${KEYSTORE_PASSWORD} \
+-Djavax.net.ssl.trustStoreType=PKCS12 \
+-Djavax.net.ssl.trustStore=${SERVICE_HOME}/conf/cert.p12 \
+</code>
+
+or use Java code to set them,
+
+<code>
+System.setProperty("javax.net.ssl.trustStore", this.trustStore);
+System.setProperty("javax.net.ssl.trustStoreType", this.trustStoreType);
+System.setProperty("javax.net.ssl.trustStorePassword", this.trustStorePassword);
+</code>
