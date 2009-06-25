@@ -4,7 +4,7 @@
 
 = Introduction =
 
-This article will introduce how to configure Tomcat to support SSL connection with Apr. The Apache Portable Runtime (APR) based Native library for Tomcat is used to optimize tomcat performance.
+This article will introduce how to configure Tomcat to support SSL connection with Apr based on my experience. The Apache Portable Runtime (APR) based Native library for Tomcat is used to optimize tomcat performance.
 
 == Tomcat SSL without APR ==
 
@@ -50,7 +50,7 @@ Obviously, the libssl.so.6 and libcrypto.so.6 are missing. You need to link them
 
 ==== Cert CFG File ==
 
-You can first create a cert configuration file. Here, I use the following Tellurium-Cert.cfg file:
+You can first create a cert configuration file. For example, I use the following Tellurium-Cert.cfg file assuming our [http://code.google.com/p/aost/ Tellurium Automated Testing Framework] needs a server with SSL support:
 
 {{{
 [jfang@localhost]$ cat Tellurium-Cert.cfg 
@@ -64,8 +64,8 @@ You can first create a cert configuration file. Here, I use the following Tellur
 
  [ req_distinguished_name ]
  C                      = US
- ST                     = Tennessee
- L                      = Knoxville
+ ST                     = Atlanta
+ L                      = Georgia
  O                      = Tellurium Framework 
  OU                     = Information Technology
  CN                     = AppServer 
@@ -243,6 +243,15 @@ To see the server cert and cert chain, use the following command,
 openssl s_client -connect hostname:port -showcerts
 }}}
 
+=== Test with curl ===
+
+curl is a Linux tool and you can use it to send Http requests to a server including Https requests. For example, I have a Sign-On Service, which uses Https. I first created an XML file, loginrequest.xml, and then post it to the server as follows, 
+
+{{{
+[jfang@localhost ~]$ curl -k --request POST --header "Content-type: text/xml" --data @loginrequest.xml https://localhost:8843/server/SignOnService
+}}}
+
+
 === Self-Signed Cert Problem ===
 
 If you use a self-signed cert without binding to a host, some client may be picky about it because the client tries to validate the host, but only sees the email address. 
@@ -272,3 +281,4 @@ The Java doc for HttpsURLConnection could be found [http://java.sun.com/j2se/1.5
   * [http://tomcat.apache.org/tomcat-5.5-doc/apr.html Apache Portable Runtime and Tomcat]
   * [http://www.openssl.org/ OpenSSL]
   * [http://shib.kuleuven.be/docs/ssl_commands.shtml A few frequently used SSL commands]
+  * [http://code.google.com/p/aost/ Tellurium Automated Testing Framework]
