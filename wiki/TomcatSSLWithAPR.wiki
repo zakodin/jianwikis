@@ -1,5 +1,6 @@
 #summary Tomcat SSL with Apr.
 #labels Phase-Implementation,Phase-Support
+<wiki:toc max_depth="5" />
 
 = Introduction =
 
@@ -228,14 +229,26 @@ System.setProperty("javax.net.ssl.trustStorePassword", this.trustStorePassword);
 
 == Test SSL ==
 
+=== Test with openssl ===
+
+After the tomcat server is up and running, you can use openssl to test it.
+
+{{{
+openssl s_client -connect hostname:port -debug
+}}}
+
+To see the server cert and cert chain, use the following command,
+
+{{{
+openssl s_client -connect hostname:port -showcerts
+}}}
 
 === Self-Signed Cert Problem ===
 
-If you use this cert, some client may be picky about it because the client
-tries to validate the host, but only sees the email address. 
+If you use a self-signed cert without binding to a host, some client may be picky about it because the client tries to validate the host, but only sees the email address. 
 
 One way to get around this is to ask Https to not validate the host name. You
-can achieve this using the following code
+can achieve this using the following code,
 
 {{{
 class NullHostnameVerifier implements HostnameVerifier {
@@ -245,10 +258,17 @@ class NullHostnameVerifier implements HostnameVerifier {
 }
 }}}
 
+and
+
 {{{
 HttpsURLConnection.setDefaultHostnameVerifier(new NullHostnameVerifier());
 }}}
 
 The Java doc for HttpsURLConnection could be found [http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/HttpsURLConnection.html here]
 
+= Resources =
 
+  * [http://tomcat.apache.org/tomcat-5.5-doc/ssl-howto.html Tomcat SSL Configuration HOW-TO]
+  * [http://tomcat.apache.org/tomcat-5.5-doc/apr.html Apache Portable Runtime and Tomcat]
+  * [http://www.openssl.org/ OpenSSL]
+  * [http://shib.kuleuven.be/docs/ssl_commands.shtml A few frequently used SSL commands]
