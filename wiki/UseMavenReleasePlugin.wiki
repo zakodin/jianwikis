@@ -70,7 +70,20 @@ mvn release:clean
 
 The Maven release:prepare command will update the POM version for each module and cut a release tag. If you look at the Subversion history, you will see the committs as follows,
 
+http://sacct-users.googlegroups.com/web/MavenPrepare4SAcct010.png?gda=WvF_vUwAAABwsiXcufpgHYK0Fq-t18-VeL5-84BcIQKjqKWcs5nNlpgWu9g6a3McrETuCNdBQZV9I3qX8W09aeKeW-JwEwfz_Vpvmo5s1aABVJRO3P3wLQ&gsc=HWN0mgsAAACDqjODsnEBV4QszHJLkSQN
 
+== Perform Maven Release ==
 
+The last step is to run the following command to actually deploy artifacts to my Maven repository
 
+{{{
+mvn release:perform
+}}}
+
+After that check [http://kungfuters.org/nexus/content/repositories/releases/org/osomit/ the Maven repository] and you will see all artifacts are there.
+
+== Resources ==
+
+  * [http://code.google.com/p/sacct/ Smart Account Management (SAcct)]
+  * [http://maven.apache.org/plugins/maven-release-plugin/usage.html Maven Release Plugin]
 
