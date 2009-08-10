@@ -127,4 +127,4 @@ To install Blaze Monster, simply download the following air file and open it wit
 
 http://www.sujitreddyg.com/applicationinstallers/blazemonster/BlazeMonster.air
 
-Sometimes, the installation failed due to Linux SELinux. You can change the SELinux enforcing mode to _Permissive_ to work around this problem.
+Sometimes, the installation fails due to Linux SELinux. You can change the SELinux enforcing mode to _Permissive_ to work around this problem.
