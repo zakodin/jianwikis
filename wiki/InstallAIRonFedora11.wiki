@@ -143,3 +143,7 @@ Then, launch the BlazeMonster in your Web browser and point it to your web appli
 http://sacct-users.googlegroups.com/web/BlazeMonster.png?gda=kwZ__EMAAABwsiXcufpgHYK0Fq-t18-VWQHwp0ITWfIVDRuUB7oKG-BgIm08D66Zub3Qbeyhf_gytiJ-HdGYYcPi_09pl8N7FWLveOaWjzbYnpnkpmxcWg&gsc=JQ3SnwsAAABu3-D6c61F463lHbtjmjTX
 
 Here, I used the sample web application in the BlazeDS turnkey bundle.
+
+If you click on the generate code button, you will see the code in the following pop-up window,
+
+http://sacct-users.googlegroups.com/web/BlazeMonsterGenerateCode.png?gda=EsXWMU8AAABwsiXcufpgHYK0Fq-t18-VobQ7jwDT6-UPKZ2bFVq-ISRT-0g7S8VhQnVGrzTt-Lk3MdYt7p2aWs5rVIz3g0D8nHMhSp_qzSgvndaTPyHVdA&gsc=XD7ZcwsAAAAo2AYPwJrdmwF0uBWU8c_V
