@@ -1,5 +1,7 @@
-#summary Install Adobe AIR on Fedora 11.
+#summary Install Adobe AIR, BlazDS, and Blaze Monster on Fedora 11.
 #labels Phase-Support
+
+== Install Adobe Air ==
 
 I downloaded the AIR from
 
@@ -119,9 +121,74 @@ Retried again,
 
 This time, no error was thrown. 
 
+== Blaze DS ==
+
 If you need to install BlazeDS, here is a good guide
 
 http://sujitreddyg.wordpress.com/2009/05/07/blazemonster/
+
+The simplest way is to download the turnkey bundle from 
+
+http://opensource.adobe.com/wiki/display/blazeds/Release+Builds
+
+Unzip it and run it directly because it comes with a tomcat instance.
+
+{{{
+[jfang@Mars BlazeDS]$ tree . -L 2
+.
+|-- blazeds-turnkey-readme.htm
+|-- blazeds.war
+|-- docs
+|   `-- javadoc.zip
+|-- ds-console.war
+|-- resources
+|   |-- ColdFusion
+|   |-- clustering
+|   |-- config
+|   |-- fds-ajax-bridge
+|   |-- flex_sdk
+|   |-- lib
+|   `-- security
+|-- sampledb
+|   |-- flexdemodb
+|   |-- hsqldb.jar
+|   |-- server.properties
+|   |-- startdb.bat
+|   |-- startdb.sh
+|   |-- stopdb.bat
+|   `-- stopdb.sh
+|-- samples.war
+`-- tomcat
+    |-- LICENSE
+    |-- NOTICE
+    |-- RELEASE-NOTES
+    |-- RUNNING.txt
+    |-- bin
+    |-- conf
+    |-- lib
+    |-- logs
+    |-- temp
+    |-- webapps
+    `-- work
+
+19 directories, 15 files
+}}}
+
+To run the BlazeDS, you need to first run the sampledb, i.e.,
+
+{{{
+[jfang@Mars BlazeDS]$ cd sampledb/
+[jfang@Mars BlazeDS]$ ./startdb.sh
+}}}
+
+and then start the BlazeDS instance,
+
+{{{
+[jfang@Mars BlazeDS]$ cd tomcat/bin/
+[jfang@Mars BlazeDS]$ ./startup.sh
+}}}
+
+== Blaze Monster ==
 
 To install Blaze Monster, simply download the following air file and open it with the AIR you just installed,
 
