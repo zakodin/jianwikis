@@ -222,3 +222,6 @@ http://sacct-users.googlegroups.com/web/BlazeMonsterGenerateCode.png?gda=EsXWMU8
   * [http://opensource.adobe.com/wiki/display/blazeds/Release+Builds BlazeDS]
   * [http://sujitreddyg.wordpress.com/2009/05/07/blazemonster/ Blaze Monster]
   * [http://labs.adobe.com/technologies/flashbuilder4/ Flash Builder 4 beta]
+  * [http://code.google.com/p/flexmonkey/ FlexMonkey]
+  * [http://code.google.com/p/fluint/ fluint - Flex Unit and Integration Testing framework]
+  * [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit FlexUnit]
