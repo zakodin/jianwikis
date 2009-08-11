@@ -206,7 +206,7 @@ To make Blaze Monster work for your web application, you need the following extr
 
 Here, I repeated the steps described in [http://www.sujitreddyg.com/applicationinstallers/blazemonster/BlazeMonster.air the Blaze Monster post]. 
 
-Then, launch the BlazeMonster in your Web browser and point it to your web application, we will see the UI as follows,
+Then, launch the BlazeMonster and point it to your web application, we will see the UI as follows,
 
 http://sacct-users.googlegroups.com/web/BlazeMonster.png?gda=kwZ__EMAAABwsiXcufpgHYK0Fq-t18-VWQHwp0ITWfIVDRuUB7oKG-BgIm08D66Zub3Qbeyhf_gytiJ-HdGYYcPi_09pl8N7FWLveOaWjzbYnpnkpmxcWg&gsc=JQ3SnwsAAABu3-D6c61F463lHbtjmjTX
 
