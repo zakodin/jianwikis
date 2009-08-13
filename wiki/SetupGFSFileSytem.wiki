@@ -119,9 +119,9 @@ to setup the cluster name, cluster nodes, fence devices, resources and services 
         </clusternodes>
         <cman expected_votes="1" two_node="1"/>
         <fencedevices>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.67" login="root" name="appserv34-ilom" passwd="web34con"/>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.68" login="root" name="appserv35-ilom" passwd="web35con"/>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.130" login="root" name="appserv36-ilom" passwd="web36con"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.67" login="root" name="appserv34-ilom" passwd="P@ssw0rd"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.68" login="root" name="appserv35-ilom" passwd="P@ssw0rd"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.130" login="root" name="appserv36-ilom" passwd="P@ssw0rd"/>
         </fencedevices>
         <rm>
                 <failoverdomains/>
