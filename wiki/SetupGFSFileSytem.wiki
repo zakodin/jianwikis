@@ -20,7 +20,7 @@ ps -ef | grep listen
 
 and see if it returns your Xserver daemon. If it returns a line with "-nolisten" in it (the default for lots of distros), you'll have to change your X configuration to remove the -nolisten option.
 
-For Fedora Linux,   modify /etc/gdm/custom.conf to add DisallowTCP=false in /etc/gdm/custom.conf to make gdm listen as follows,
+For Fedora Linux, modify /etc/gdm/custom.conf to add DisallowTCP=false in /etc/gdm/custom.conf to make gdm listen as follows,
 
 {{{
 [security]
@@ -119,18 +119,14 @@ to setup the cluster name, cluster nodes, fence devices, resources and services 
         </clusternodes>
         <cman expected_votes="1" two_node="1"/>
         <fencedevices>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.67" login="root" name="appserv34-ilom" pa
-sswd="web34con"/>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.68" login="root" name="appserv35-ilom" pa
-sswd="web35con"/>
-                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.130" login="root" name="appserv36-ilom" p
-asswd="web36con"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.67" login="root" name="appserv34-ilom" passwd="web34con"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.68" login="root" name="appserv35-ilom" passwd="web35con"/>
+                <fencedevice agent="fence_ipmilan" auth="password" ipaddr="192.168.10.130" login="root" name="appserv36-ilom" passwd="web36con"/>
         </fencedevices>
         <rm>
                 <failoverdomains/>
                 <resources>
-                        <clusterfs device="/dev/emcpowera" force_unmount="0" fsid="14332" fstype="gfs" mountpoint="/mnt/gfs" 
-name="builddisk" options=""/>
+                        <clusterfs device="/dev/emcpowera" force_unmount="0" fsid="14332" fstype="gfs" mountpoint="/mnt/gfs" name="builddisk" options=""/>
                 </resources>
                 <service autostart="1" name="buildservice">
                         <clusterfs ref="builddisk"/>
@@ -168,6 +164,7 @@ Change cluster manager bindaddress
 
 and change the bindaddress as follows,
 
+{{{
 totem {
         version: 2
         secauth: off
@@ -250,6 +247,7 @@ If you want to manually mount the disk, use the following command
 }}}
 
 Check the status
+
 {{{
 [root@appserv35 ~]# df
 Filesystem           1K-blocks      Used Available Use% Mounted on
