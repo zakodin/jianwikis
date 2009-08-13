@@ -1,5 +1,6 @@
 #summary Setup GFS File Sytem in Redhat/Centos Cluster Environment.
 #labels Phase-Deploy
+<wiki:toc max_depth="3" />
 
 == Setup remote X window client ==
  
