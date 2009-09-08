@@ -1,0 +1,10 @@
+#summary Maven Project for Flex AIR, Pure MVC, Spring ActionScript, and Flex Unit.
+#labels Phase-Implementation
+
+= Introduction =
+
+I worked on a Flex AIR project with Pure MVC, Spring ActionScript, and Flex Unit 4 recently, which was not a very pleasant experience. Many Flex projects use ant for build and Flex Air project is even more difficult to maventize. I post my experiences on the Flex AIR Maven project and hope it saves some people's time. 
+
+= Prerequisites =
+
+
