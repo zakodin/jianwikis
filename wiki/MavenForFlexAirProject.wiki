@@ -7,8 +7,24 @@ I worked on a Flex AIR project with Pure MVC, Spring ActionScript, and Flex Unit
 
 = Prerequisites =
 
-  * _Flex SDK 3_. Download Flex 3 SDK from [http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+3 Adobe site]. Unpack it and then set up the FLEX_HOME environment variable.
+  * _Flex SDK 3_: Download Flex 3 SDK from [http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+3 Adobe site]. Unpack it and then set up the FLEX_HOME environment variable.
 
-  * _Flex AIR_. Downloaded the AIR from [http://get.adobe.com/air/ Adobe AIR site] and install it. Windows installation is easy and more details of Linux installation could be found from my previous post [http://code.google.com/p/jianwikis/wiki/InstallAIRonFedora11#Adobe_Air Install Adobe AIR, BlazDS, and Blaze Monster on Fedora 11].
+  * _Flex AIR_: Downloaded the AIR from [http://get.adobe.com/air/ Adobe AIR site] and install it. Windows installation is easy and more details of Linux installation could be found from my previous post [http://code.google.com/p/jianwikis/wiki/InstallAIRonFedora11#Adobe_Air Install Adobe AIR, BlazDS, and Blaze Monster on Fedora 11].
 
-  * _Maven_. Download Maven from [http://maven.apache.org/download.html Maven site]. If you never installed Maven before, please follow [http://maven.apache.org/download.html#Installation the official Maven Installation Guide].
+  * _Maven_: Download Maven from [http://maven.apache.org/download.html Maven site]. If you never installed Maven before, please follow [http://maven.apache.org/download.html#Installation the official Maven Installation Guide].
+
+  * _Proxy Server_: If you work behind a firewall like me, you can download [http://ntlmaps.sourceforge.net/ NTLM Authorization Proxy Server] and use it as a proxy server. You may need to configure your {{{HOME/.m2/settings.xml}}} as follows,
+
+{{{   
+  <proxies>
+   <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>localhost</host>
+      <port>5865</port>
+      <!--username>proxyuser</username>
+      <password>somepassword</password-->
+      <nonProxyHosts>*.mycompany.com|*.othersites_do_not_need_proxy</nonProxyHosts>
+    </proxy>
+  </proxies>
+}}}
