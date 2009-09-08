@@ -116,6 +116,10 @@ The AirSample.mxml is the AIR application main file and it usually comes with th
 </mx:WindowedApplication>
 }}}
 
+where applicationContext.xml is [http://www.springsource.org/extensions/se-springactionscript-as the Spring ActionScript] wiring file. configurationClassesCompilerConfig.xml is a custom compilation configuration file and cert.p12 is a cert file to sign the AIR package.
+
+
+
 
 
  
