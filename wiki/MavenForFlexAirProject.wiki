@@ -771,6 +771,69 @@ If suddenly, your AIR application cannot be installed even you haven't change an
 
 Try to use _adl_ directly to run the AIR test cases.
 
+== How to Close the Test Window Using adl ==
+
+Since we need to _adl_ to run the AIR test cases, how to close the test window would be an issue for CI integration. One way is to use 
+
+{{{
+NativeApplication.nativeApplication.exit(); 
+}}}
+
+For example, we have the following TestRunner.xmxl,
+
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%"
+    xmlns:flexUnitUIRunner="http://www.adobe.com/2009/flexUnitUIRunner"
+    creationComplete="onCreationComplete()">
+
+	<mx:Script>
+	    <![CDATA[
+
+	    import com.mycompany.AirTestSuite;
+            import flash.desktop.NativeApplication;
+            
+            import org.flexunit.listeners.CIListener;
+	    import org.flexunit.listeners.UIListener;
+	    import org.flexunit.runner.FlexUnitCore;
+	    import com.jtv.signon.facade.ApplicationFacade;
+            import org.flexunit.runner.notification.async.XMLListener;
+
+	    private var flexUnitCore:FlexUnitCore;
+            private var loadTimer:Timer;
+            private var timeoutInMilliseconds:Number = 10000;
+
+	    protected function onCreationComplete():void
+	    {
+                loadTimer = new Timer(timeoutInMilliseconds);
+                loadTimer.addEventListener(TimerEvent.TIMER, closeTest);
+                loadTimer.start();
+
+		flexUnitCore = new FlexUnitCore();
+ 		//Listener for the UI, optional
+ 		flexUnitCore.addListener( new UIListener( testRunner ));
+//              flexUnitCore.addListener( new XMLListener( "testRunner" ) );
+                flexUnitCore.addListener(new CIListener());
+ 		//This run statements executes the unit tests for the FlexUnit4 framework
+ 		flexUnitCore.run(FlexAirTestSuite);
+
+ 	    }
+
+            private function closeTest(event:TimerEvent):void
+            {
+                NativeApplication.nativeApplication.clear();
+                NativeApplication.nativeApplication.exit();
+            }
+		
+           ]]>
+	</mx:Script>
+
+	<flexUnitUIRunner:TestRunnerBase id="testRunner" width="100%" height="100%" />
+</mx:WindowedApplication>
+}}}
+
+That is to say, we use a timer to close test after some time-out threshold.
+
 = Summary =
 
 The Maven build for the Flex AIR application may have a lot of problems and you may not even be able to find any solution to them. Hope this post could help your Adobe AIR Maven build somehow. You might like to create a Flex AIR Maven archetype so that you don't need to manually create the Flex AIR project. For how to manually create a Maven archetype, please check my wiki page [http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes#How_Tellurium_Maven_Archetypes_Are_Created How Tellurium Maven Archetypes Are Created]. If you have an existing AIR project, you can create the Maven archetype from it. For more details, please read [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project].
