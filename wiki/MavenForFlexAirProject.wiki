@@ -1,4 +1,4 @@
-#summary Maven Project for AIR, Pure MVC, Spring ActionScript, and Flex Unit.
+#summary Maven Build for AIR, Pure MVC, Spring ActionScript, and Flex Unit.
 #labels Phase-Implementation
 <wiki:toc max_depth="5" />
 
