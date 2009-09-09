@@ -674,6 +674,7 @@ The trick is the line
 {{{
 <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
 }}}
+
 You may run into a lot problems without it. In the following line 
 
 {{{
@@ -706,7 +707,9 @@ I used the Maven dependencies for the Ant, thus, I need the maven dependency plu
 
 Another way to compile the Flex Unit 4 test code is to use Flex mojos to compile it, but you need to set up a custom template file, otherwise, the compiled swf will not be Flex Unit 4 compatible. For example, the flexmojos-maven-plugin, you can add the following line in the configuration section,
 
-{{{                   <testRunnerTemplate>${project.build.testSourceDirectory}/TestRunner.mxml</testRunnerTemplate>
+{{{   
+                <testRunnerTemplate>${project.build.testSourceDirectory}/TestRunner.mxml</testRunnerTemplate>
+
 }}}
 
 I spent a lot of time to try to run the AIR Flex Unit 4 test case using the the Flex Unit ant task as follows,
@@ -748,5 +751,28 @@ But unfortunately, it does not work. I had to use the _adl_ tool directly with t
   </execution>
 }}}
 
+= Troubleshooting =
+
+== Error: "Type was not found or was not a compile-time constant: NativeWindow" == 
+
+_playerglobal_ is sneaking into your build, use 
+
+{{{
+mvn dependency:tree
+}}}
+
+to see which artifact has the transitive dependency and then exclude _playerglobal_ from it.
+
+== The AIR Application Cannot Be Installed ==
+
+If suddenly, your AIR application cannot be installed even you haven't change any of your POM file, you may need to check your cert file. Try to use a new cert to see if the problem goes away.
+
+== Cannot Load AIR Tests in Flash Player ==
+
+Try to use _adl_ directly to run the AIR test cases.
+
 = Summary =
+
+The Maven build for the Flex AIR application may have a lot of problems and you may not even be able to find any solution to them. Hope this post can help your Maven Flex AIR somehow. You might like to create a Flex AIR Maven archetype so that you don't need to manually create the Flex AIR project. For how to manually create a Maven archetype, please check my wiki page [http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes#How_Tellurium_Maven_Archetypes_Are_Created How Tellurium Maven Archetypes Are Created]. If you have an existing AIR project, you can create the Maven archetype from it. For more details, please read [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project].
+
 = Resources = 
