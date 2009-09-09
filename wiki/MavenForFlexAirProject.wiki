@@ -3,7 +3,7 @@
 
 = Introduction =
 
-I worked on a Flex AIR project with Pure MVC, Spring ActionScript, and Flex Unit 4 recently, which was not a very pleasant experience. Many Flex projects use ant for build and Flex Air project is even more difficult to maventize. I post my experience on the Flex AIR Maven project and hope it saves some people's time. 
+I worked on a Flex AIR project with [http://puremvc.org/ Pure MVC], [http://www.springsource.org/extensions/se-springactionscript-as Spring ActionScript], and [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit+4+feature+overview Flex Unit 4] recently, which was not a very pleasant experience. Many Flex projects use ant for build and Flex Air project is even more difficult to maventize. I post my experience on the Flex AIR Maven project and hope it saves some people's time. 
 
 = Prerequisites =
 
@@ -116,7 +116,7 @@ The AirSample.mxml is the AIR application main file and it usually comes with th
 </mx:WindowedApplication>
 }}}
 
-where applicationContext.xml is [http://www.springsource.org/extensions/se-springactionscript-as the Spring ActionScript] wiring file. configurationClassesCompilerConfig.xml is a custom compilation configuration file and cert.p12 is a cert file to sign the AIR package.
+where applicationContext.xml is the Spring ActionScript wiring file. configurationClassesCompilerConfig.xml is a custom compilation configuration file and cert.p12 is a cert file to sign the AIR package.
 
 == Maven POM ==
 
@@ -207,6 +207,98 @@ To make it work, you need to set up your server upload user account in your Mave
 }}}
 
 === Flex AIR dependencies ===
+
+Our application depends on Spring ActionScript, Pure MVC, ActionScript 3, and Flex AIR sdk. The Maven dependencies are shown as follows,
+
+{{{
+        <dependency>
+            <groupId>org.springextensions.actionscript</groupId>
+            <artifactId>spring-actionscript-core</artifactId>
+            <version>0.8</version>
+            <type>swc</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springextensions.actionscript</groupId>
+            <artifactId>spring-actionscript-puremvc-standard</artifactId>
+            <version>0.8</version>
+            <type>swc</type>
+             <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.puremvc</groupId>
+            <artifactId>puremvc-as3-standard</artifactId>
+            <version>2.0.4</version>
+            <type>swc</type>
+        </dependency>
+        <dependency>
+            <groupId>org.as3commons</groupId>
+            <artifactId>as3commons-lang</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>merged</scope>
+            <type>swc</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.as3commons</groupId>
+            <artifactId>as3commons-logging</artifactId>
+            <version>1.0.0</version>
+            <scope>merged</scope>
+            <type>swc</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flexunit</groupId>
+                    <artifactId>flexunit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.as3commons</groupId>
+            <artifactId>as3commons-reflect</artifactId>
+            <version>1.0.0</version>
+            <scope>merged</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flexunit</groupId>
+                    <artifactId>flexunit</artifactId>
+                </exclusion>
+            </exclusions>           
+            <type>swc</type>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>air-framework</artifactId>
+            <version>${flex-sdk.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>flexlib</groupId>
+            <artifactId>flexlib-bin</artifactId>
+            <version>2.4</version>
+            <type>swc</type>
+        </dependency>
+}}}
+
+Obviously, I excluded couple transitive dependencies such as _playerglobal_ and _FlexUnit 0.9_. For AIR application, you must exclude _playerglobal_ and use _airglobal_, otherwise, you will get the following error:
+
+{{{
+
+}}}
 
 === Flex Mojos ===
 
