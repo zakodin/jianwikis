@@ -630,5 +630,123 @@ For more details about _adt_, please check out [http://livedocs.adobe.com/flex/3
  
 === Flex Unit 4 ===
 
+To compile Flex Unit 4 test code, I used the Maven antrun plugin
+
+{{{
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <id>flexunit4-test-compile</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <tasks>
+                                <property name="FLEX_HOME" value="${flex.home}"/>
+                                <taskdef resource="flexTasks.tasks"/>
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"
+                                         classpathref="maven.compile.classpath"/>
+
+                                <!-- Compile TestRunner.mxml as a SWF -->
+                                <mxmlc file="${project.build.testSourceDirectory}/TestRunner.mxml"
+                                       output="${project.build.testOutputDirectory}/TestRunner.swf">
+                                    <source-path path-element="${project.build.sourceDirectory}"/>
+                                    <source-path path-element="${project.build.testSourceDirectory}"/>
+                                    <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
+                                    <compiler.library-path dir="${basedir}/target/dependency" append="true">
+                                        <include name="*.*"/>
+                                    </compiler.library-path>
+                                    <compiler.verbose-stacktraces>true</compiler.verbose-stacktraces>
+                                    <compiler.headless-server>true</compiler.headless-server>
+                                </mxmlc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+        ......
+}}}
+
+The trick is the line
+
+{{{
+<load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
+}}}
+You may run into a lot problems without it. In the following line 
+
+{{{
+<compiler.library-path dir="${basedir}/target/dependency" append="true">
+}}}
+
+I used the Maven dependencies for the Ant, thus, I need the maven dependency plugin,
+
+{{{
+         <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+               <!-- Copy all library swc's we're dependent upon into a folder so we can use Ant -->
+               <execution>
+                  <id>copy-dependencies</id>
+                  <phase>process-test-resources</phase>
+                  <goals>
+                     <goal>copy-dependencies</goal>
+                  </goals>
+                  <configuration>
+                     <includeTypes>swc</includeTypes>
+                     <overWriteIfNewer>true</overWriteIfNewer>
+                     <stripVersion>true</stripVersion> 
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+}}}
+
+
+Another way to compile the Flex Unit 4 test code is to use Flex mojos to compile it, but you need to set up a custom template file, otherwise, the compiled swf will not be Flex Unit 4 compatible. For example, the flexmojos-maven-plugin, you can add the following line in the configuration section,
+
+{{{                   <testRunnerTemplate>${project.build.testSourceDirectory}/TestRunner.mxml</testRunnerTemplate>
+}}}
+
+I spent a lot of time to try to run the AIR Flex Unit 4 test case using the the Flex Unit ant task as follows,
+
+{{{
+  <!--flexunit swf="${project.build.testOutputDirectory}/TestRunner.swf"
+      toDir="${project.build.directory}/surefire-reports"
+      haltonfailure="true"
+      verbose="true"
+      localTrusted="false"/-->
+}}}
+
+But unfortunately, it does not work. I had to use the _adl_ tool directly with the antrun plugin to run the AIR test case,
+
+{{{
+  <execution>
+    <id>flexunit4-test-run</id>
+    <phase>test</phase>
+    <configuration>
+       <tasks>
+          <!-- Execute TestRunner.swf as FlexUnit tests and publish reports -->
+          <taskdef resource="flexUnitTasks.tasks"/>
+
+          <exec executable="${flex.home}/bin/adl" failonerror="false" osfamily="unix">
+               <arg value="${project.build.testOutputDirectory}/TestRunner-app.xml"/>
+                <arg value="--"/>
+                <arg value="${project.build.directory}/surefire-reports"/>
+          </exec>
+          <exec executable="${flex.home}/bin/adl.exe" failonerror="false" osfamily="windows">
+                 <arg value="${project.build.testOutputDirectory}/TestRunner-app.xml"/>
+                 <arg value="--"/>
+                 <arg value="${project.build.directory}/surefire-reports"/>
+          </exec>
+      </tasks>
+    </configuration>
+    <goals>
+       <goal>run</goal>
+    </goals>
+  </execution>
+}}}
+
 = Summary =
 = Resources = 
