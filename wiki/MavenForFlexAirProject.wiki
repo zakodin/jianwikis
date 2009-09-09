@@ -815,7 +815,7 @@ For example, we have the following TestRunner.xmxl,
 //              flexUnitCore.addListener( new XMLListener( "testRunner" ) );
                 flexUnitCore.addListener(new CIListener());
  		//This run statements executes the unit tests for the FlexUnit4 framework
- 		flexUnitCore.run(FlexAirTestSuite);
+ 		flexUnitCore.run(AirTestSuite);
 
  	    }
 
