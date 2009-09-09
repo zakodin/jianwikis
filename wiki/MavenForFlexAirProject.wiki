@@ -4,7 +4,7 @@
 
 = Introduction =
 
-I worked on an [http://www.adobe.com/products/air/develop/flex/ AIR] project with [http://puremvc.org/ Pure MVC], [http://www.springsource.org/extensions/se-springactionscript-as Spring ActionScript], and [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit+4+feature+overview Flex Unit 4] recently, which was not a very pleasant experience. Many Flex projects use ant for build and Flex Air project is even more difficult to maventize. I post my experience on the Flex AIR Maven project and hope it saves some people's time. 
+I worked on an [http://www.adobe.com/products/air/develop/flex/ AIR] project with [http://puremvc.org/ Pure MVC], [http://www.springsource.org/extensions/se-springactionscript-as Spring ActionScript], and [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit+4+feature+overview Flex Unit 4] recently, which was not a very pleasant experience. Many Flex projects use ant for build and the Air project is even more difficult to maventize. I post my experience on the Adobe AIR Maven project and hope it could some people's time. 
 
 = Prerequisites =
 
