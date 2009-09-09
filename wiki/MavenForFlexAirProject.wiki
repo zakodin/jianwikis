@@ -563,26 +563,26 @@ The AIR application usually needs to be signed. To sign the application, you nee
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.1.1</version>
                 <executions>
-					<execution>
-						<id>generate-cert</id>
-						<phase>package</phase>
-						<configuration>
-							<executable>java</executable>
-							<workingDirectory>${basedir}/target/air</workingDirectory>
-							<arguments>
-								<argument>-jar</argument>
-								<argument>${flex.home}/lib/adt.jar</argument>
-								<argument>-certificate</argument>
-								<argument>-cn</argument>
-								<argument>${target.name}</argument>
-								<argument>2048-RSA</argument>
-								<argument>cert.p12</argument>
-								<argument>jtv123</argument>
-							</arguments>
-						</configuration>
-						<goals>
-							<goal>exec</goal>
-						</goals>
+		    <execution>
+			<id>generate-cert</id>
+			<phase>package</phase>
+			<configuration>
+			   <executable>java</executable>
+		           <workingDirectory>${basedir}/target/air</workingDirectory>
+			   <arguments>
+			     <argument>-jar</argument>
+			     <argument>${flex.home}/lib/adt.jar</argument>
+			     <argument>-certificate</argument>
+			     <argument>-cn</argument>
+			     <argument>${target.name}</argument>
+			     <argument>2048-RSA</argument>
+			     <argument>cert.p12</argument>
+			     <argument>MY_PASSWORD</argument>
+			   </arguments>
+			</configuration>
+		        <goals>
+			   <goal>exec</goal>
+			</goals>
                 </executions>
             </plugin>
 }}}
