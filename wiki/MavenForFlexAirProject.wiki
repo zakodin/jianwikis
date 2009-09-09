@@ -796,7 +796,6 @@ For example, we have the following TestRunner.xmxl,
             import org.flexunit.listeners.CIListener;
 	    import org.flexunit.listeners.UIListener;
 	    import org.flexunit.runner.FlexUnitCore;
-	    import com.jtv.signon.facade.ApplicationFacade;
             import org.flexunit.runner.notification.async.XMLListener;
 
 	    private var flexUnitCore:FlexUnitCore;
