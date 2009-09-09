@@ -792,6 +792,7 @@ The Maven build for the Flex AIR application may have a lot of problems and you 
   * [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project]
   * [http://code.google.com/p/aost/wiki/MavenHowTo Tellurium Maven Guide]
   * [http://livedocs.adobe.com/flex/3/html/help.html?content=CommandLineTools_5.html Packaging an AIR installation file using the AIR Developer Tool (ADT)]
+  * [http://www.adobe.com/support/flashplayer/downloads.html Adobe Flash Player]
   * [http://maven.apache.org/download.html Maven]
   * [http://maven.apache.org/download.html#Installation the official Maven Installation Guide]
   * [http://maven.apache.org/plugins/maven-antrun-plugin/ Maven antrun plugin]
