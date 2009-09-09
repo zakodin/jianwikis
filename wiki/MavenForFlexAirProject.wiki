@@ -439,6 +439,54 @@ Apart from the above, you also need the _adt_ tool to package the AIR applicatio
 
 You can put {{{flex.home}}} as a property in the POM file, but I would rather to put it in the Maven settings.xml because different operating systems have different file paths.
 
+Finally, you can check your project dependencies using the following Maven command:
+
+{{{
+mvn dependency:tree
+}}}
+
+For example, my project dependency tree is shown as follows,
+
+{{{
+[INFO] [dependency:tree]
+[INFO] com.mycompany:AirSample:swf:1.0-SNAPSHOT
+[INFO] +- org.springextensions.actionscript:spring-actionscript-core:swc:0.8:compile
+[INFO] +- org.springextensions.actionscript:spring-actionscript-puremvc-standard:swc:0.8:compile
+[INFO] +- org.puremvc:puremvc-as3-standard:swc:2.0.4:compile
+[INFO] +- org.as3commons:as3commons-lang:swc:1.0.0-SNAPSHOT:merged
+[INFO] |  \- com.adobe.flex.framework:flex-framework:pom:3.2.0.3958:runtime
+[INFO] +- org.as3commons:as3commons-logging:swc:1.0.0:merged
+[INFO] +- org.as3commons:as3commons-reflect:swc:1.0.0:merged
+[INFO] +- com.adobe.flex.framework:air-framework:pom:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:airframework:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:airglobal:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:applicationupdater:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:applicationupdater_ui:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:servicemonitor:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:flex:swc:3.2.0.3958:compile
+[INFO] |  +- com.adobe.flex.framework:framework:swc:3.2.0.3958:compile
+[INFO] |  +- com.adobe.flex.framework:rpc:swc:3.2.0.3958:compile
+[INFO] |  +- com.adobe.flex.framework:utilities:swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:airframework:rb.swc:3.3.0.4852:compile
+[INFO] |  +- com.adobe.flex.framework:rpc:rb.swc:3.2.0.3958:compile
+[INFO] |  +- com.adobe.flex.framework:framework:rb.swc:3.2.0.3958:compile
+[INFO] |  \- com.adobe.flex.framework:framework:zip:configs:3.3.0.4852:compile
+[INFO] +- flexlib:flexlib-bin:swc:2.4:compile
+[INFO] +- com.adobe.flex.compiler:adt:jar:3.3.0.4852:system
+[INFO] +- org.sonatype.flexmojos:flexmojos-unittest-support:swc:3.3.0:test
+[INFO] |  +- org.funit:funit:swc:0.50.0245:test
+[INFO] |  +- com.swirlyvision:swirly-vision:swc:1.0:test
+[INFO] |  +- net.digitalprimates:fluint:swc:v1:test
+[INFO] |  +- com.asunit:asunit:swc:20071011:test
+[INFO] |  \- advancedflex:debugger:swc:0.2alpha2:test
+[INFO] +- com.adobe.flexunit:flexunit:swc:4.0-beta-2:test (scope not updated to runtime)
+[INFO] +- com.adobe.flexunit:uirunner:swc:4.0-beta-2:test
+[INFO] +- ant-contrib:ant-contrib:jar:1.0b2:compile
+[INFO] |  \- ant:ant:jar:1.5:compile
+[INFO] \- com.adobe.flexunit:cilistener:swc:4.0-beta-2:test
+
+}}}
+
 === Flex Mojos ===
 
 === Flex Unit 4 ===
