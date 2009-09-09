@@ -785,6 +785,7 @@ The Maven build for the Flex AIR application may have a lot of problems and you 
   * [http://www.springsource.org/extensions/se-springactionscript-as Spring ActionScript]
   * [http://code.google.com/p/flex-mojos/ Flex Mojos]
   * [http://groups.google.com/group/flex-mojos Flex Mojos Group]
+  * [http://www.adobe.com/cfusion/entitlement/index.cfm?e=flexbuilder3 Flex Builder 3]
   * [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit+4+feature+overview Flex Unit 4]
   * [http://forums.adobe.com/community/opensource/flexunit Flex Unit Forum]
   * [http://code.google.com/p/jianwikis/wiki/TomcatSSLWithAPR Tomcat SSL with Apr]
