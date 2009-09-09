@@ -773,7 +773,7 @@ Try to use _adl_ directly to run the AIR test cases.
 
 = Summary =
 
-The Maven build for the Flex AIR application may have a lot of problems and you may not even be able to find any solution to them. Hope this post can help your Maven Flex AIR somehow. You might like to create a Flex AIR Maven archetype so that you don't need to manually create the Flex AIR project. For how to manually create a Maven archetype, please check my wiki page [http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes#How_Tellurium_Maven_Archetypes_Are_Created How Tellurium Maven Archetypes Are Created]. If you have an existing AIR project, you can create the Maven archetype from it. For more details, please read [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project].
+The Maven build for the Flex AIR application may have a lot of problems and you may not even be able to find any solution to them. Hope this post could help your Adobe AIR Maven build somehow. You might like to create a Flex AIR Maven archetype so that you don't need to manually create the Flex AIR project. For how to manually create a Maven archetype, please check my wiki page [http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes#How_Tellurium_Maven_Archetypes_Are_Created How Tellurium Maven Archetypes Are Created]. If you have an existing AIR project, you can create the Maven archetype from it. For more details, please read [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project].
 
 = Resources = 
 
