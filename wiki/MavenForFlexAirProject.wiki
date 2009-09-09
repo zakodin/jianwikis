@@ -206,7 +206,7 @@ To make it work, you need to set up your server upload user account in your Mave
       </server>  
 }}}
 
-=== Flex AIR dependencies ===
+=== Maven dependencies ===
 
 Our application depends on Spring ActionScript, Pure MVC, ActionScript 3, and Flex AIR sdk. The Maven dependencies are shown as follows,
 
@@ -297,8 +297,147 @@ Our application depends on Spring ActionScript, Pure MVC, ActionScript 3, and Fl
 Obviously, I excluded couple transitive dependencies such as _playerglobal_ and _FlexUnit 0.9_. For AIR application, you must exclude _playerglobal_ and use _airglobal_, otherwise, you will get the following error:
 
 {{{
-
+[-1,-1] Type was not found or was not a compile-time constant: NativeWindow.
 }}}
+
+Be aware that the _air-framework_ dependency is a POM file, which includes all the dependencies you need for an AIR application. For example, the _air-framework_ POM file for Flex sdk 3.3.0.4852 looks like:
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.adobe.flex.framework</groupId>
+  <artifactId>air-framework</artifactId>
+  <packaging>pom</packaging>
+  <version>3.3.0.4852</version>
+  <description>POM was created from flex-mojos:install-sdk</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>airframework</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>airglobal</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>applicationupdater</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>applicationupdater_ui</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>servicemonitor</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>flex</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>framework</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>rpc</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>utilities</artifactId>
+      <version>3.3.0.4852</version>
+      <type>swc</type>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>airframework</artifactId>
+      <version>3.3.0.4852</version>
+      <type>rb.swc</type>
+      <classifier></classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>rpc</artifactId>
+      <version>3.3.0.4852</version>
+      <type>rb.swc</type>
+      <classifier></classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>framework</artifactId>
+      <version>3.3.0.4852</version>
+      <type>rb.swc</type>
+      <classifier></classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.flex.framework</groupId>
+      <artifactId>framework</artifactId>
+      <version>3.3.0.4852</version>
+      <type>zip</type>
+      <classifier>configs</classifier>
+    </dependency>
+  </dependencies>
+</project>
+}}}
+
+Apart from that, the Flex Unit 4 dependencies are listed here:
+
+{{{
+        <dependency>
+            <groupId>com.adobe.flexunit</groupId>
+            <artifactId>flexunit</artifactId>
+            <version>${flexunit.version}</version>
+            <type>swc</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flexunit</groupId>
+            <artifactId>uirunner</artifactId>
+            <version>${flexunit.version}</version>
+            <type>swc</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flexunit</groupId>
+            <artifactId>cilistener</artifactId>
+            <version>${flexunit.version}</version>
+            <type>swc</type>
+            <scope>test</scope>
+        </dependency>
+}}} 
+
+where the uirunner is used for Flex Unit UI and cilistener is a listener to the FlexUnitCore so that it knows when the tests are done and it is mainly for CI integration.
+
+Apart from the above, you also need the _adt_ tool to package the AIR application, which only exists in Flex sdk. As a result, I use the jar from Flex sdk directly,
+
+{{{
+        <dependency>
+            <groupId>com.adobe.flex.compiler</groupId>
+            <artifactId>adt</artifactId>            
+            <version>${flex-sdk.version}</version>
+            <scope>system</scope>
+            <systemPath>${flex.home}/lib/adt.jar</systemPath>
+        </dependency>
+}}} 
+
+You can put {{{flex.home}}} as a property in the POM file, but I would rather to put it in the Maven settings.xml because different operating systems have different file paths.
 
 === Flex Mojos ===
 
