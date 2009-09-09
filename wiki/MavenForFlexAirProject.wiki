@@ -705,7 +705,7 @@ I used the Maven dependencies for the Ant, thus, I need the maven dependency plu
 }}}
 
 
-Another way to compile the Flex Unit 4 test code is to use Flex mojos to compile it, but you need to set up a custom template file, otherwise, the compiled swf will not be Flex Unit 4 compatible. For example, the flexmojos-maven-plugin, you can add the following line in the configuration section,
+Another way to compile the Flex Unit 4 test code is to use Flex mojos to compile it, but you need to set up a custom template file, otherwise, the compiled swf will not be Flex Unit 4 compatible. For example, you can add the following line in the configuration section to the flexmojos-maven-plugin,
 
 {{{   
                 <testRunnerTemplate>${project.build.testSourceDirectory}/TestRunner.mxml</testRunnerTemplate>
