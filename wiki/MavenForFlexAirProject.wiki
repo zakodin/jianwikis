@@ -751,7 +751,7 @@ But unfortunately, it does not work. I had to use the _adl_ tool directly with t
   </execution>
 }}}
 
-= Troubleshooting =
+= Troubleshootings =
 
 == Error: "Type was not found or was not a compile-time constant: NativeWindow" == 
 
