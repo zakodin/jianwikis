@@ -553,7 +553,7 @@ Flex Mojos comes with Flex Unit support, for example, you can use the following 
 
 However, Flex Mojos does not support Flex Unit 4 at this point, I have to use the antrun plugin to run the Flex Unit 4. I will discuss Flex Unit 4 more later.
 
-===- Package AIR Application ===
+=== Package AIR Application ===
 
 The AIR application usually needs to be signed. To sign the application, you need to create a cert first, please read my post [http://code.google.com/p/jianwikis/wiki/TomcatSSLWithAPR Tomcat SSL with Apr] for how to create a cert. You can also use Maven to generate a cert,
 
@@ -587,6 +587,47 @@ The AIR application usually needs to be signed. To sign the application, you nee
             </plugin>
 }}}
 
+To package the AIR application, you need to run the _adt_ command using the exec-maven-plugin,
+
+{{{
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${basedir}/target/air</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>com.adobe.air.ADT</argument>
+                                <argument>-package</argument>
+                                <argument>-storetype</argument>
+                                <argument>pkcs12</argument>
+                                <argument>-storepass</argument>
+                                <argument>MY_PASSWORD</argument>
+                                <argument>-keystore</argument>
+                                <argument>cert.p12</argument>
+                                <argument>-keypass</argument>
+                                <argument>MY_PASSWORD</argument>
+                                <argument>-tsa</argument>
+                                <argument>none</argument>
+                                <argument>${basedir}/target/air/${target.name}.air</argument>
+                                <argument>${target.name}-app.xml</argument>
+                                <argument>-C</argument>
+                                <argument>${target.bin.dir}</argument>
+                                <argument>${target.name}.swf</argument>
+                                <argument>-C</argument>
+                                <argument>${basedir}/target/air</argument>
+                                <argument>applicationContext.xml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+}}}
+
+For more details about _adt_, please check out [http://livedocs.adobe.com/flex/3/html/help.html?content=CommandLineTools_5.html Packaging an AIR installation file using the AIR Developer Tool (ADT)].
+ 
 === Flex Unit 4 ===
 
 = Summary =
