@@ -841,6 +841,7 @@ The Maven build for the Flex AIR application may have a lot of problems and you 
 
   * [http://www.adobe.com/products/air/develop/flex/ Adobe AIR]
   * [http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+3 Adobe Flex 3 SDK]
+  * [http://livedocs.adobe.com/flex/3/ Flex 3 LiveDocs]  
   * [http://get.adobe.com/air/ Adobe AIR Download]
   * [http://code.google.com/p/jianwikis/wiki/InstallAIRonFedora11#Adobe_Air Install Adobe AIR, BlazDS, and Blaze Monster on Fedora 11]
   * [http://puremvc.org/ Pure MVC]
@@ -850,7 +851,6 @@ The Maven build for the Flex AIR application may have a lot of problems and you 
   * [http://www.adobe.com/cfusion/entitlement/index.cfm?e=flexbuilder3 Flex Builder 3]
   * [http://opensource.adobe.com/wiki/display/flexunit/FlexUnit+4+feature+overview Flex Unit 4]
   * [http://forums.adobe.com/community/opensource/flexunit Flex Unit Forum]
-  * [http://livedocs.adobe.com/flex/3/ Flex 3 LiveDocs]  
   * [http://code.google.com/p/jianwikis/wiki/TomcatSSLWithAPR Tomcat SSL with Apr]
   * [http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes#How_Tellurium_Maven_Archetypes_Are_Created How Tellurium Maven Archetypes Are Created]
   * [http://code.google.com/p/jianwikis/wiki/HowToCreateMavenArchetypeFromProject How to Create a Maven Archetype From an Existing Project]
