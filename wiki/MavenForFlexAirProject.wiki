@@ -553,6 +553,27 @@ Flex Mojos comes with Flex Unit support, for example, you can use the following 
 
 However, Flex Mojos does not support Flex Unit 4 at this point, I have to use the antrun plugin to run the Flex Unit 4. I will discuss Flex Unit 4 more later.
 
+Flex Mojos also supports asdoc generation. For example, you can use the following execution to bind the asdoc goal to the Maven default install process.
+
+{{{
+                   <execution>
+                        <id>generate-asdoc</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>asdoc</goal>
+                        </goals>
+                        <configuration>                       <outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+                            <sourcePaths>
+                                <path>${project.build.sourceDirectory}</path>
+                                <path>${project.build.testSourceDirectory}</path>
+                            </sourcePaths>
+                            <excludeClasses>
+                                <class>TestRunner</class>
+                            </excludeClasses>
+                        </configuration>
+                    </execution>
+}}}
+
 === Package AIR Application ===
 
 The AIR application usually needs to be signed. To sign the application, you need to create a cert first, please read my post [http://code.google.com/p/jianwikis/wiki/TomcatSSLWithAPR Tomcat SSL with Apr] for how to create a cert. You can also use Maven to generate a cert,
