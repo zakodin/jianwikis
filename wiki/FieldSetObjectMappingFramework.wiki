@@ -2,6 +2,7 @@
 #labels Phase-Design
 
 = Introduction = 
+
 == Motivations ==
 
 The Field Set Object Mapping Framework (FSOM) is created to convert Java Object to and from field sets. What are field sets? A field set is
@@ -246,7 +247,7 @@ The detailed Java Object and Field Set mapping XML configuration file is shown a
 
 	<fieldValidator id="emailValidator" class="com.mycompany.batch.mapping.impl.spring.validation.EmailValidator"/>
 
-    <fieldSet id="clientBadCheckRecord" objectMap="batchInfo customerInfo accountInfo transactionInfo chargeBackInfo">
+    <fieldSet id="clientRecord" objectMap="batchInfo customerInfo accountInfo transactionInfo chargeBackInfo">
         <field name="batchId" description="Batch ID" nullable="false"/>
         <field name="orderNo" description="Order Number" nullable="false" length="20"/>
         <field name="paymentNo" description="Payment Number" nullable="false" length="20"/>
@@ -266,11 +267,10 @@ The detailed Java Object and Field Set mapping XML configuration file is shown a
         <field name="amount" description="Amount of Check"/>
         <field name="accountNo" description="Bank Account Number"/>
         <field name="routingNo" description="Bank Routing Number"/>
-        <field name="serviceDate" description="Service Date"/>
+        <field name="sevDate" description="Service Date"/>
         <field name="checkNo" description="CheckNumber"/>
         <field name="payee" description="Payee" length="20"/>
-        <field name="chargeBackDate" description="ChargeBack Date"/>
-        <field name="storeNo" description="Store Number" length="6"/>
+        <field name="returnDate" description="ChargeBack Date"/>
     </fieldSet>
 
     <objectMap id="batchInfo" class="com.mycompany.batch.entity.transfer.demo.BatchInfo">
@@ -302,14 +302,13 @@ The detailed Java Object and Field Set mapping XML configuration file is shown a
         <variable name="payee" field="payee"/>
         <variable name="checkNo" field="checkNo"/>
         <variable name="amountInCents" field="amount" typeHandler="dollarAmountHandler"/>
-        <variable name="serviceDate" field="serviceDate" typeHandler="simpleDateHandler"/>
-        <variable name="storeNo" field="storeNo"/>
+        <variable name="sevDate" field="sevDate" typeHandler="simpleDateHandler"/>
         <variable name="paymentNo" field="paymentNo"/>
         <variable name="orderNo" field="orderNo"/>
     </objectMap>
 
     <objectMap id="chargeBackInfo" class="com.mycompany.batch.entity.transfer.demo.ChargeBackInfo">
-        <variable name="chargeBackDate" field="chargeBackDate" typeHandler="simpleDateHandler"/>
+        <variable name="returnDate" field="returnDate" typeHandler="simpleDateHandler"/>
     </objectMap>
  
 </fsoMap>
@@ -325,20 +324,20 @@ public class demoConverterImpl  extends BaseConverterImpl implements demoConvert
     private FieldSetObjectMapper mapper;
 
     protected void convertBadCheckRecord(BatchJobContext context, demoRequest request,
-			ByteArrayOutputStream baos, ClientBadCheckRecord clientBadCheckRecord){
+			ByteArrayOutputStream baos, ClientRecord clientRecord){
 
 	   	Map<String, Object> objectMaps = new HashMap<String, Object>();
-	   	objectMaps.put("batchInfo", clientBadCheckRecord.getBatchInfo());
-	   	objectMaps.put("customerInfo", clientBadCheckRecord.getCustomerInfo());
-	   	objectMaps.put("accountInfo", clientBadCheckRecord.getAccountInfo());
-	   	objectMaps.put("transactionInfo", clientBadCheckRecord.getTransactionInfo());
-	   	objectMaps.put("chargeBackInfo", clientBadCheckRecord.getChargeBackInfo());
+	   	objectMaps.put("batchInfo", clientRecord.getBatchInfo());
+	   	objectMaps.put("customerInfo", clientRecord.getCustomerInfo());
+	   	objectMaps.put("accountInfo", clientRecord.getAccountInfo());
+	   	objectMaps.put("transactionInfo", clientRecord.getTransactionInfo());
+	   	objectMaps.put("chargeBackInfo", clientRecord.getChargeBackInfo());
 	   	//temporally hold the byte array for the record, so that we can discard it in case
 	   	//of invalid data and only add valid records to the converted data stream
 	   	ByteArrayOutputStream tbaos = new ByteArrayOutputStream();
     	try{
     		//convert the Client Bad Check Record field set
-    		mapper.marshalFieldSet(tbaos, "demo", "clientBadCheckRecord", objectMaps);
+    		mapper.marshalFieldSet(tbaos, "demo", "clientRecord", objectMaps);
     	}catch(CoreException e){
                 ...
     	}
@@ -367,6 +366,4 @@ The Spring wiring file uses the FieldSetObjectMapperFactoryBean class to create 
 }}}
 
 If you have different file formats, you can simply write your custom Field Set reader and writer and then wire them into the factory bean. 
-
-
 
