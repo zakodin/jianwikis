@@ -249,8 +249,6 @@ The detailed Java Object and Field Set mapping XML configuration file is shown a
 
     <fieldSet id="clientRecord" objectMap="batchInfo customerInfo accountInfo transactionInfo chargeBackInfo">
         <field name="batchId" description="Batch ID" nullable="false"/>
-        <field name="orderNo" description="Order Number" nullable="false" length="20"/>
-        <field name="paymentNo" description="Payment Number" nullable="false" length="20"/>
         <field name="lastName" description="Last Name" nullable="false" length="20"/>
         <field name="firstName" description="FirstName Mi" nullable="false" length="20"/>
         <field name="addressOne" description="Address1" nullable="false" length="20"/>
@@ -303,8 +301,6 @@ The detailed Java Object and Field Set mapping XML configuration file is shown a
         <variable name="checkNo" field="checkNo"/>
         <variable name="amountInCents" field="amount" typeHandler="dollarAmountHandler"/>
         <variable name="sevDate" field="sevDate" typeHandler="simpleDateHandler"/>
-        <variable name="paymentNo" field="paymentNo"/>
-        <variable name="orderNo" field="orderNo"/>
     </objectMap>
 
     <objectMap id="chargeBackInfo" class="com.mycompany.batch.entity.transfer.demo.ChargeBackInfo">
@@ -366,4 +362,3 @@ The Spring wiring file uses the FieldSetObjectMapperFactoryBean class to create 
 }}}
 
 If you have different file formats, you can simply write your custom Field Set reader and writer and then wire them into the factory bean. 
-
