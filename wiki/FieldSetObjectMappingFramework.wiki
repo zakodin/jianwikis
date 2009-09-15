@@ -21,7 +21,7 @@ only using XML configurations and the expressiveness it offers. As a result, you
 
 The Architecture of the FSOM framework is shown in the following diagram,
 
-[[Image:FsomArchitecture.png]]
+http://sacct-users.googlegroups.com/web/FsomArchitecture.png?gda=myxegUcAAABwsiXcufpgHYK0Fq-t18-VcduyJajMZkHyExt4IRNTJkxBcav97KKqIIHPw8_lwXUVeY4b49xGcMK802iZZ8SFeV4duv6pDMGhhhZdjQlNAw&gsc=ypY6FgsAAADV3ZfoSfo7zlUr2Cv4XdfJ
 
 The main task of the FSOM framework is to convert Java object to a file, whose format is specified by the Field Set definition, or read the file and convert
 it to Java objects automatically.
