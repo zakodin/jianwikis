@@ -562,7 +562,8 @@ Flex Mojos also supports asdoc generation. For example, you can use the followin
                         <goals>
                             <goal>asdoc</goal>
                         </goals>
-                        <configuration>                       <outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+                        <configuration>                       
+                            <outputDirectory>${project.build.directory}/asdoc</outputDirectory>
                             <sourcePaths>
                                 <path>${project.build.sourceDirectory}</path>
                                 <path>${project.build.testSourceDirectory}</path>
