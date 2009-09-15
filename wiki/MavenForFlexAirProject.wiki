@@ -61,6 +61,9 @@ then choose maven-archetype-quickstart or manually create a Maven project. After
 |   |   `-- resources
 |   |       |-- AirSample-app.xml
 |   |       |-- applicationContext.xml
+|   |       |-- assets
+|   |       |   `-- styles
+|   |       |       `-- appStyle.css
 |   |       |-- cert.p12
 |   |       `-- configurationClassesCompilerConfig.xml
 |   `-- test
@@ -643,6 +646,9 @@ To package the AIR application, you need to run the _adt_ command using the exec
                                 <argument>-C</argument>
                                 <argument>${basedir}/target/air</argument>
                                 <argument>applicationContext.xml</argument>
+                                <argument>-C</argument>
+                                <argument>${project.build.directory}/classes</argument>
+                                <argument>assets</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -854,6 +860,14 @@ For example, we have the following TestRunner.xmxl,
 }}}
 
 That is to say, we use a timer to close test after some time-out threshold.
+
+== Why I got "Problem finding external stylesheet" ==
+
+You need to point the style source to the one in the resources directory, i.e.,
+
+{{{
+	<mx:Style source="../resources/assets/styles/appStyle.css"/>
+}}}
 
 = Summary =
 
