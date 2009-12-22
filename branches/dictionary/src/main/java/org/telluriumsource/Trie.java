@@ -122,7 +122,9 @@ public class Trie {
 
     public void printMe(){
         if(this.root != null){
+            System.out.println("---------------------------- Trie/Prefix Tree ----------------------------\n");
             this.root.printMe();
+            System.out.println("--------------------------------------------------------------------------\n");
         }
     }
 }
