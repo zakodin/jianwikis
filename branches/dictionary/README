@@ -1,0 +1,65 @@
+                                            README
+
+-----------------------------------------------------------------------------------------------------------------------
+
+                               Jian Fang     (John.Jian.Fang@gmail.com)
+
+                                           Dec 21, 2009
+-----------------------------------------------------------------------------------------------------------------------
+
+This is a Maven project to demostrate the algorithm to find the longest prefix chain in a dictionary.
+The data structure is a Trie, or Prefix Tree and the tree building and level indexing procedure are implemented
+in the Trie class. The JUnit test case Trie_UT is used to show the test result of the algorithm.
+
+
+1) Files
+
+|-- README              -------- This file
+|-- pom.xml             -------- Maven pom file
+|-- src
+|   |-- main
+|   |   `-- java
+|   |       `-- org
+|   |           `-- telluriumsource
+|   |               |-- Node.java              ------------ The node of the Trie (Prefix Tree)
+|   |               |-- NodeComparator.java    ------------ Comparator class used to store the Node to a priorty queue
+|   |               `-- Trie.java              ------------ Trie, or Prefix Tree
+|   `-- test
+|       `-- java
+|           `-- org
+|               `-- telluriumsource
+|                   `-- Trie_UT.java           ------------ JUnit 4 Test cass for the algorithm based on Trie
+
+
+2) Test
+
+Input dictionary
+
+   String[] dictionary = {"a", "an", "and", "andy", "bo", "body", "bodyguard", "some", "someday", "goodluck", "joke"};
+
+Test output:
+
+---------------------------- Trie/Prefix Tree ----------------------------
+
+{
+  a{
+    n{
+      d{
+        y
+      }
+    }
+  }
+  bo{
+    dy{
+      guard
+    }
+  }
+  some{
+    day
+  }
+  goodluck
+  joke
+}
+--------------------------------------------------------------------------
+
+The word with longest prefix chain: andy, level: 4
