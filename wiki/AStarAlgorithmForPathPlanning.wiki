@@ -11,6 +11,16 @@ Recently, I work on a warehouse optimization project. On interesting problem is 
 
 To use the A`*` algorithm, I need to define a Graph data structure as follows.
 
+=== Position ===
+
+{{{
+public class Position {
+    private double x;
+
+    private double y;
+}
+}}}
+
 === Node ===
 
 A node is a vertex of the graph.
@@ -86,7 +96,6 @@ public class NavEdge extends Edge {
 
 public class NavGraph extends Graph<NavNode, NavEdge>{
 
-    //NavGraph is bidirectional, one connection consists of two edges
     public void addConnection(String firstId, String secondId){
         NavNode node1 = this.getNode(firstId);
         NavNode node2 = this.getNode(secondId);
@@ -113,5 +122,47 @@ public class NavGraph extends Graph<NavNode, NavEdge>{
 }
 }}}
 
-In our application, we choose to use the Manhatten distance. 
+In our application, we choose to use the Manhatten distance. To load a predefined navigation from a file, we use a loader class for this purpose.
 
+{{{
+public class NavGraphLoader {
+
+    public NavGraphData load(String filePath) {
+        try {
+            String json = this.readFileAsString(filePath);
+            JSONReader reader = new JSONReader();
+            Map map = (Map) reader.read(json);
+            NavGraphData data = new NavGraphData();
+            data.fromJSON(map);
+
+            return data;
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot read file " + filePath);
+        }
+    }
+
+    String readFileAsString(String filePath) throws java.io.IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(filePath)));
+        StringBuffer sb = new StringBuffer(4096);
+
+        String line = reader.readLine();
+        while(line != null){
+            sb.append(line);
+            line = reader.readLine();
+        }
+
+        reader.close();
+
+        return sb.toString();
+    }
+}
+}}}
+
+where the file is in JSON format, for example.
+
+{{{
+{"entries": [{"position":{"y":8.0,"x":8.0},"id":"A","linkWith":["B","C"],"extraData":["E01","E03","E05"]},
+             {"position":{"y":6.0,"x":8.0},"id":"B","linkWith":["A","C"],"extraData":["E02","E04","E06"]},
+             {"position":{"y":6.0,"x":6.0},"id":"C","linkWith":["A","B"],"extraData":["E01A"]}]
+}
+}}}
