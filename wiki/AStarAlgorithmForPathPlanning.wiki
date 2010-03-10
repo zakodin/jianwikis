@@ -64,3 +64,54 @@ public class Graph<N extends Node, E extends Edge> {
 }
 }}}
 
+== Navigation Graph ==
+
+In the warehouse application, we need to build a navigation graph to help us to construct the path for the pick agent. In a tiled environment, you can first use the [http://en.wikipedia.org/wiki/Flood_fill Flood Fill algorithm] to search for the connection in the application world. Then build a navigation graph based on it. For our warehouse application, we can create outlines for aisles to obtain a navigation graph.
+
+The navigation graph is defined as follows.
+
+{{{
+public class NavNode extends Node{
+
+    protected Position position;
+
+    protected List<String> extraData;
+
+}}}
+
+public class NavEdge extends Edge {
+
+    protected double cost;
+}
+
+public class NavGraph extends Graph<NavNode, NavEdge>{
+
+    //NavGraph is bidirectional, one connection consists of two edges
+    public void addConnection(String firstId, String secondId){
+        NavNode node1 = this.getNode(firstId);
+        NavNode node2 = this.getNode(secondId);
+        if(node1 != null && node2 != null){
+            double cost = this.calcManhattanDistance(node1, node2);
+            NavEdge edge1 = new NavEdge(firstId, secondId, cost);
+            NavEdge edge2 = new NavEdge(secondId, firstId, cost);
+            this.addEdge(edge1);
+            this.addEdge(edge2);
+        }
+    }
+
+    public void removeConnection(String firstId, String secondId){
+        NavEdge edge1 = new NavEdge(firstId, secondId);
+        NavEdge edge2 = new NavEdge(secondId, firstId);
+        this.removeEdge(edge1);
+        this.removeEdge(edge2);
+    }
+
+    public double calcManhattanDistance(NavNode a, NavNode b){
+        return abs(a.getPosition().getX() - b.getPosition().getX())
+                + abs(a.getPosition().getY() - b.getPosition().getY());
+    }
+}
+}}}
+
+In our application, we choose to use the Manhatten distance. 
+
