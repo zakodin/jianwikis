@@ -4,3 +4,63 @@
 = Introduction =
 
 Recently, I work on a warehouse optimization project. On interesting problem is to select an optimal pick tour for the pick agent, which is very much like a simplified path planning problem in a game world. I used the popular [http://en.wikipedia.org/wiki/A*_search_algorithm A`*` search algorithm] and like to share with you about my Java implementation of the A`*` algorithm.
+
+= Java Implementation =
+
+== Data Structure ==
+
+To use the A`*` algorithm, I need to define a Graph data structure as follows.
+
+=== Node ===
+
+A node is a vertex of the graph.
+
+{{{
+public class Node {
+
+    protected String id;
+}
+}}}
+
+=== Edge ===
+
+{{{
+public class Edge {
+
+    protected String from;
+
+    protected String to;
+
+}
+}}}
+
+=== Adjacency ===
+
+Adjacency is used to represent the neighbours of the current node.
+
+{{{
+public class Adjacency<N extends Node>{
+    protected N node;
+    protected Set<N> neighbors;
+}
+}}}
+
+=== Graph ===
+
+A graph can be defined as follows. Note, the edgeList and adjacency may be redundant and you can use one of them in your application.
+ 
+{{{
+public class Graph<N extends Node, E extends Edge> {
+
+    protected List<N> nodeList;
+    
+    protected List<E> edgeList;
+    
+    //Index for fast access
+    private Map<String, Adjacency<N>> adjacency;
+
+    //directed graph or not
+    protected boolean diGraph;
+}
+}}}
+
