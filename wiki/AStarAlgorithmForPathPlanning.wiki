@@ -206,7 +206,7 @@ public class AStarNodeComparator implements Comparator<AStarNode> {
 }
 }}}
 
-The algorithm is not complicated as shown in the following class.
+The algorithm is not complicated as shown in the following class. For more algorithm details, please refer to [http://en.wikipedia.org/wiki/A*_search_algorithm A`*` search algorithm].
 
 {{{
 public class AStarAlgorithm {
@@ -258,6 +258,7 @@ public class AStarAlgorithm {
             }
         }
 
+        //after found the target, start to construct the path 
         if(goal != null){
             Stack<NavNode> stack = new Stack<NavNode>();
             List<NavNode> list = new ArrayList<NavNode>();
@@ -283,3 +284,10 @@ public class AStarAlgorithm {
     }
 }
 }}}
+
+= Resources =
+
+ * [http://en.wikipedia.org/wiki/A*_search_algorithm A`*` search algorithm]
+ * [http://en.wikipedia.org/wiki/Flood_fill Flood Fill algorithm]
+ * [http://www.amazon.com/Programming-Game-Example-Mat-Buckland/dp/1556220782 ProgrammingGame AI by Example (book)]
+ * [http://twitter.com/TelluriumSource TelluriumSource on Twitter]
