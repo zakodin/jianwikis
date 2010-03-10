@@ -4,7 +4,7 @@
 
 = Introduction =
 
-Recently, I work on a warehouse optimization project. On interesting problem is to select an optimal pick tour for the pick agent, which is very much like a simplified path planning problem in a game world. I used the popular [http://en.wikipedia.org/wiki/A*_search_algorithm A`*` search algorithm] and like to share with you about my Java implementation of the A`*` algorithm.
+Recently, I work on a warehouse optimization project. On interesting problem is to select an optimal pick tour for the pick agent, which is very much like a simplified path planning problem in a game world. I used the popular [http://en.wikipedia.org/wiki/A*_search_algorithm A* search algorithm] and like to share with you about my Java implementation of the A`*` algorithm.
 
 = Java Implementation =
 
