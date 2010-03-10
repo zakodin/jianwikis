@@ -87,7 +87,7 @@ public class NavNode extends Node{
 
     protected List<String> extraData;
 
-}}}
+}
 
 public class NavEdge extends Edge {
 
