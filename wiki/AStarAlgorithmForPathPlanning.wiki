@@ -287,7 +287,7 @@ public class AStarAlgorithm {
 
 = Resources =
 
- * [http://en.wikipedia.org/wiki/A*_search_algorithm A`*` search algorithm]
+ * [http://en.wikipedia.org/wiki/A*_search_algorithm A* search algorithm]
  * [http://en.wikipedia.org/wiki/Flood_fill Flood Fill algorithm]
  * [http://www.amazon.com/Programming-Game-Example-Mat-Buckland/dp/1556220782 ProgrammingGame AI by Example (book)]
  * [http://twitter.com/TelluriumSource TelluriumSource on Twitter]
