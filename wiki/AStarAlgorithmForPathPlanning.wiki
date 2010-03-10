@@ -166,5 +166,119 @@ where the file is in JSON format, for example.
              {"position":{"y":6.0,"x":8.0},"id":"B","linkWith":["A","C"],"extraData":["E02","E04","E06"]},
              {"position":{"y":6.0,"x":6.0},"id":"C","linkWith":["A","B"],"extraData":["E01A"]}]
 }
+}}}
 
+== A* Search Algorithm ==
+
+Before work on the A`*` algorithm, we need to create a wrap node as follows.
+
+{{{
+public class AStarNode {
+
+    private NavNode node;
+
+    //used to construct the path after the search is done
+    private AStarNode cameFrom;
+
+    // Distance from source along optimal path
+    private double g;
+
+    // Heuristic estimate of distance from the current node to the target node
+    private double h;
+}
+}}}
+
+and a [http://java.sun.com/j2se/1.5.0/docs/api/java/util/Comparator.html comparator] for Java [http://java.sun.com/j2se/1.5.0/docs/api/java/util/PriorityQueue.html priority queue].
+
+{{{
+public class AStarNodeComparator implements Comparator<AStarNode> {
+
+    public int compare(AStarNode first, AStarNode second) {
+        if(first.getF() < second.getF()){
+            return -1;
+        }else if(first.getF() > second.getF()){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+}
+}}}
+
+The algorithm is not complicated as shown in the following class.
+
+{{{
+public class AStarAlgorithm {
+   public static List<NavNode> search(NavGraph graph, NavNode source, NavNode target) {
+        Map<String, AStarNode> openSet = new HashMap<String, AStarNode>();
+        PriorityQueue<AStarNode> pQueue = new PriorityQueue(20, new AStarNodeComparator());
+        Map<String, AStarNode> closeSet = new HashMap<String, AStarNode>();
+        AStarNode start = new AStarNode(source, 0, graph.calcManhattanDistance(source, target));
+        openSet.put(source.getId(), start);
+        pQueue.add(start);
+
+        AStarNode goal = null;
+        while(openSet.size() > 0){
+            AStarNode x = pQueue.poll();
+            openSet.remove(x.getId());
+            if(x.getId().equals(target.getId())){
+                //found
+                if(log.isDebugEnabled()){
+                    log.debug("Found target node " + x.getId());
+                }
+                goal = x;
+                break;
+            }else{
+                if(log.isDebugEnabled()){
+                    log.debug("Search for node " + x.getId());
+                }
+                closeSet.put(x.getId(), x);
+                Set<NavNode> neighbors = graph.getAdjacentNodes(x.getId());
+                for (NavNode neighbor : neighbors) {
+                    AStarNode visited = closeSet.get(neighbor.getId());
+                    if (visited == null) {
+                        double g = x.getG() + graph.calcManhattanDistance(x.getNode(), neighbor);
+                        AStarNode n = openSet.get(neighbor.getId());
+
+                        if (n == null) {
+                            //not in the open set
+                            n = new AStarNode(neighbor, g, graph.calcManhattanDistance(neighbor, target));
+                            n.setCameFrom(x);
+                            openSet.put(neighbor.getId(), n);
+                            pQueue.add(n);
+                        } else if (g < n.getG()) {
+                            //Have a better route to the current node, change its parent
+                            n.setCameFrom(x);
+                            n.setG(g);
+                            n.setH(graph.calcManhattanDistance(neighbor, target));
+                        }
+                    }
+                }
+            }
+        }
+
+        if(goal != null){
+            Stack<NavNode> stack = new Stack<NavNode>();
+            List<NavNode> list = new ArrayList<NavNode>();
+            stack.push(goal.getNode());
+            AStarNode parent = goal.getCameFrom();
+            while(parent != null){
+                stack.push(parent.getNode());
+                parent = parent.getCameFrom();
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("Constructing search path: ");
+            }
+            while(stack.size() > 0){
+                if (log.isDebugEnabled()) {
+                    log.debug("\t" + stack.peek().getId());
+                }
+                list.add(stack.pop());
+            }
+            return list;
+        }
+        
+        return null;  
+    }
+}
 }}}
