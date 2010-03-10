@@ -169,7 +169,7 @@ where the file is in JSON format, for example.
 }
 }}}
 
-== A* Search Algorithm ==
+== A`*` Search Algorithm ==
 
 Before work on the A`*` algorithm, we need to create a wrap node as follows.
 
