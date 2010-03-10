@@ -210,6 +210,8 @@ The algorithm is not complicated as shown in the following class. For more algor
 
 {{{
 public class AStarAlgorithm {
+   private static Log log = LogFactory.getLog(AStarAlgorithm.class);
+
    public static List<NavNode> search(NavGraph graph, NavNode source, NavNode target) {
         Map<String, AStarNode> openSet = new HashMap<String, AStarNode>();
         PriorityQueue<AStarNode> pQueue = new PriorityQueue(20, new AStarNodeComparator());
