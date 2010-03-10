@@ -161,8 +161,10 @@ public class NavGraphLoader {
 where the file is in JSON format, for example.
 
 {{{
+
 {"entries": [{"position":{"y":8.0,"x":8.0},"id":"A","linkWith":["B","C"],"extraData":["E01","E03","E05"]},
              {"position":{"y":6.0,"x":8.0},"id":"B","linkWith":["A","C"],"extraData":["E02","E04","E06"]},
              {"position":{"y":6.0,"x":6.0},"id":"C","linkWith":["A","B"],"extraData":["E01A"]}]
 }
+
 }}}
