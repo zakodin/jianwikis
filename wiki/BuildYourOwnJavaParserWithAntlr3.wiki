@@ -391,9 +391,11 @@ public class UdlParser_UT {
 = Resources =
 
   * [http://www.antlr.org/ Antlr 3]
-  * [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plugin]
+  * [http://mojo.codehaus.org/antlr3-maven-plugin/ Antlr3 Maven Plugin]
   * [http://www.antlr.org/works/index.html ANTLRWorks]
   * [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments Antlr 3 IDE plugins]
   * [http://javadude.com/articles/antlr3xtut/ ANTLR 3.x Tutorial Videos]
+  * [http://code.google.com/p/aost Tellurium Automated Testing Framework]
   * [http://code.google.com/p/aost/wiki/TelluriumUIDDescriptionLanguage Tellurium UID Description Language]
-  * [http://twitter.com/TelluriumSource Twitter]
+  * [http://twitter.com/TelluriumSource Tellurium on Twitter]
+  * [[http://telluriumsource.org TelluriumSource.org TelluriumSource.org]
