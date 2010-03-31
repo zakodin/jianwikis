@@ -5,7 +5,7 @@
 
 = Introduction =
 
-[http://www.antlr.org/ Antlr] (ANother Tool for Language Recognition) is a parser generator, this article describes how to use Antlr 3 to create your own parser in Java.
+[http://www.antlr.org/ Antlr] (ANother Tool for Language Recognition) is a parser generator. This article describes how to use Antlr 3 to create your own parser in Java.
 
 = Dependencies =
 
@@ -26,7 +26,7 @@ To use Antlr 3, we can define the Maven dependencies as follows.
         </dependency>
 }}}
 
-We also need the [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plugin] to automatically generate the Java parser code from Antlr grammar.
+We also need the [http://mojo.codehaus.org/antlr3-maven-plugin/ Antlr3 Maven Plugin] to automatically generate the Java parser code from Antlr 3 grammar.
 
 {{{
     <build>
@@ -172,7 +172,7 @@ WS 	: 	(' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;};
 
 == Data Structure ==
 
-To create the parser, we need couple Java objects to map to the Antlr 3 grammar. For example, we have the following classes.
+To create the parser, we need couple Java objects to map to the Antlr 3 grammars. For example, we define the following classes.
 
 {{{
 public class Index {
@@ -206,7 +206,7 @@ public class TableBodyMetaData extends MetaData {
 
 == Embedded Java Code ==
 
-To get data from the parser, we can embed Java code inside the Antlr 3 grammar as follows.
+To get data from the parser, we can embed Java code inside the Antlr 3 grammars as follows.
 
 {{{
 grammar Udl;
