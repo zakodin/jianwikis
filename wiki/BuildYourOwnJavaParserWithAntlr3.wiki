@@ -101,3 +101,71 @@ We also need the [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plu
 = IDE Supports =
 
 [http://www.antlr.org/works/index.html ANTLRWorks] is a novel grammar development environment for ANTLR v3 grammars. ANTLRWorks has an [http://plugins.intellij.net/plugin/?id=953 IntelliJ IDEA Plugin]. There are also [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments other IDEA plugins] available. 
+
+= Example =
+
+Here, we like to use the [http://code.google.com/p/aost/wiki/TelluriumUIDDescriptionLanguage Tellurium UID Description Language] (UDL) as an example to illustrate how to create a parser in Java.
+
+== Grammar ==
+
+The UDL grammars are defined as follows,
+
+{{{
+grammar Udl;
+
+uid	
+	: 	baseUid
+	|	listUid
+	|	tableUid	
+	;
+	
+baseUid 
+	:	ID
+	;
+	
+listUid
+	:	'{' INDEX '}'
+	|	'{' INDEX '}' 'as' ID
+	;
+		
+tableUid 
+	:	tableHeaderUid
+	|	tableFooterUid 
+	|	tableBodyUid
+	;
+	
+tableHeaderUid
+	:	'{' 'header' ':' INDEX '}'
+	|	'{' 'header' ':' INDEX '}' 'as' ID
+	;
+	
+tableFooterUid
+	:       '{' 'footer' ':' INDEX '}'
+	|       '{' 'footer' ':' INDEX '}' 'as' ID
+	;
+	
+tableBodyUid
+        :	'{' 'row' ':' INDEX ',' 'column' ':' INDEX '}'
+        |	'{' 'row' ':' INDEX ',' 'column' ':' INDEX '}' 'as' ID
+        |	'{' 'row' '->' ID ',' 'column' ':' INDEX '}'
+        |	'{' 'row' '->' ID ',' 'column' ':' INDEX '}' 'as' ID
+        |	'{' 'row' ':' INDEX ',' 'column' '->' ID '}'
+        |	'{' 'row' ':' INDEX ',' 'column' '->' ID '}' 'as' ID
+        |	'{' 'row' '->' ID ',' 'column' '->' ID '}'
+        |	'{' 'row' '->' ID ',' 'column' '->' ID '}' 'as' ID
+        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}'
+        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}' 'as' ID
+        |	'{' 'tbody' ':' INDEX ',' 'row' '->' ID ',' 'column' ':' INDEX '}'
+        |	'{' 'tbody' ':' INDEX ',' 'row' '->' ID ',' 'column' ':' INDEX '}' 'as' ID
+        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}'
+        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}' 'as' ID
+        |	'{' 'tbody' ':' INDEX ',' 'row' '->' id1=ID ',' 'column' '->' ID '}'
+        |	'{' 'tbody' ':' INDEX ',' 'row' '->' id1=ID ',' 'column' '->' ID '}' 'as' ID
+        ;              			
+							
+fragment LETTER : ('a'..'z' | 'A'..'Z') ;
+fragment DIGIT : '0'..'9';
+INDEX	:	(DIGIT+ |'all' | 'odd' | 'even' | 'any' | 'first' | 'last' );   
+ID 	: 	LETTER (LETTER | DIGIT)*;
+WS 	: 	(' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;};
+}}}
