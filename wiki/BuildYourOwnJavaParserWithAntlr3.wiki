@@ -100,7 +100,7 @@ We also need the [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plu
 
 = IDE Supports =
 
-[http://www.antlr.org/works/index.html ANTLRWorks] is a novel grammar development environment for ANTLR v3 grammars. ANTLRWorks has an [http://plugins.intellij.net/plugin/?id=953 IntelliJ IDEA Plugin]. There are also [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments other IDEA plugins] available. 
+[http://www.antlr.org/works/index.html ANTLRWorks] is a novel grammar development environment for ANTLR v3 grammars. ANTLRWorks has an [http://plugins.intellij.net/plugin/?id=953 IntelliJ IDEA Plugin]. There are also [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments other IDE plugins] available. 
 
 = Example =
 
@@ -327,13 +327,13 @@ public class UdlParser_UT {
 
     @Test
     public void testBaseUid(){
- 		CharStream stream =
-			new ANTLRStringStream("Tellurium");
-		UdlLexer lexer = new UdlLexer(stream);
-		TokenStream tokenStream = new CommonTokenStream(lexer);
-		UdlParser parser = new UdlParser(tokenStream);
+ 	CharStream stream =
+	new ANTLRStringStream("Tellurium");
+	UdlLexer lexer = new UdlLexer(stream);
+	TokenStream tokenStream = new CommonTokenStream(lexer);
+	UdlParser parser = new UdlParser(tokenStream);
         try{
-		    MetaData data = parser.uid();
+            MetaData data = parser.uid();
             assertNotNull(data);
             assertEquals("Tellurium", data.getId());
         }catch(RecognitionException e){
@@ -343,13 +343,14 @@ public class UdlParser_UT {
 
     @Test
     public void testTableHeaderUid(){
- 		CharStream stream =
-			new ANTLRStringStream("{header: 3} as A");
-		UdlLexer lexer = new UdlLexer(stream);
-		TokenStream tokenStream = new CommonTokenStream(lexer);
-		UdlParser parser = new UdlParser(tokenStream);
+ 	CharStream stream =
+	new ANTLRStringStream("{header: 3} as A");
+	UdlLexer lexer = new UdlLexer(stream);
+	TokenStream tokenStream = new CommonTokenStream(lexer);
+	UdlParser parser = new UdlParser(tokenStream);
         try{
-		    MetaData data = parser.uid();
+		    
+            MetaData data = parser.uid();
             assertNotNull(data);
             assertTrue(data instanceof TableHeaderMetaData);
             TableHeaderMetaData th = (TableHeaderMetaData)data;
@@ -363,13 +364,14 @@ public class UdlParser_UT {
 
     @Test
     public void testTableBodyRefUid(){
-		CharStream stream =
-			new ANTLRStringStream("{tbody : 1, row -> good, column -> bad} as Search");
-		UdlLexer lexer = new UdlLexer(stream);
-		TokenStream tokenStream = new CommonTokenStream(lexer);
-		UdlParser parser = new UdlParser(tokenStream);
+        CharStream stream =
+	new ANTLRStringStream("{tbody : 1, row -> good, column -> bad} as Search");
+	UdlLexer lexer = new UdlLexer(stream);
+	TokenStream tokenStream = new CommonTokenStream(lexer);
+	UdlParser parser = new UdlParser(tokenStream);
         try{
-		    MetaData data = parser.uid();
+		    
+            MetaData data = parser.uid();
             assertNotNull(data);
             assertEquals("Search", data.getId());
             assertTrue(data instanceof TableBodyMetaData);
@@ -385,3 +387,13 @@ public class UdlParser_UT {
         }
     }
 }}}
+
+= Resources =
+
+  * [http://www.antlr.org/ Antlr 3]
+  * [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plugin]
+  * [http://www.antlr.org/works/index.html ANTLRWorks]
+  * [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments Antlr 3 IDE plugins]
+  * [http://javadude.com/articles/antlr3xtut/ ANTLR 3.x Tutorial Videos]
+  * [http://code.google.com/p/aost/wiki/TelluriumUIDDescriptionLanguage Tellurium UID Description Language]
+  * [http://twitter.com/TelluriumSource Twitter]
