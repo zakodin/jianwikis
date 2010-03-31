@@ -297,3 +297,23 @@ INDEX	:	(DIGIT+ | 'all' | 'odd' | 'even' | 'any' | 'first' | 'last' );
 ID 	: 	LETTER (LETTER | DIGIT)*;
 WS 	: 	(' ' | '\t' | '\n' | '\r' | '\f')+ {$channel = HIDDEN;};
 }}}
+
+== Parser ==
+
+The above Antlr 3 Maven plugin generates a lexer, UdlLexer, and a parser, UdlParser. To wrap things up, we define a parser class as follows.
+
+{{{
+public class UidParser {
+    
+    public static MetaData parse(String uid) throws RecognitionException {
+        if (uid == null || uid.trim().length() == 0)
+            return null;
+
+        CharStream stream = new ANTLRStringStream(uid);
+        UdlLexer lexer = new UdlLexer(stream);
+        TokenStream tokenStream = new CommonTokenStream(lexer);
+        UdlParser parser = new UdlParser(tokenStream);
+        return parser.uid();
+    }
+}
+}}}
