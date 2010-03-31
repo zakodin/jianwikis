@@ -153,12 +153,12 @@ tableBodyUid
         |	'{' 'row' ':' INDEX ',' 'column' '->' ID '}' 'as' ID
         |	'{' 'row' '->' ID ',' 'column' '->' ID '}'
         |	'{' 'row' '->' ID ',' 'column' '->' ID '}' 'as' ID
-        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}'
-        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}' 'as' ID
+        |       '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}'
+        |       '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' ':' INDEX '}' 'as' ID
         |	'{' 'tbody' ':' INDEX ',' 'row' '->' ID ',' 'column' ':' INDEX '}'
         |	'{' 'tbody' ':' INDEX ',' 'row' '->' ID ',' 'column' ':' INDEX '}' 'as' ID
-        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}'
-        |   '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}' 'as' ID
+        |       '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}'
+        |       '{' 'tbody' ':' INDEX ',' 'row' ':' INDEX ',' 'column' '->' ID '}' 'as' ID
         |	'{' 'tbody' ':' INDEX ',' 'row' '->' id1=ID ',' 'column' '->' ID '}'
         |	'{' 'tbody' ':' INDEX ',' 'row' '->' id1=ID ',' 'column' '->' ID '}' 'as' ID
         ;              			
