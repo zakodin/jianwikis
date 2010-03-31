@@ -1,6 +1,8 @@
 #summary Build Your Own Java Parser with Antlr 3.
 #labels Phase-Design
 
+<wiki:toc max_depth="5" />
+
 = Introduction =
 
 [http://www.antlr.org/ Antlr] (ANother Tool for Language Recognition) is a parser generator, this article describes how to use Antlr 3 to create your own parser in Java.
@@ -99,4 +101,3 @@ We also need the [http://mojo.codehaus.org/antlr3-maven-plugin/ antlr3-maven-plu
 = IDE Supports =
 
 [http://www.antlr.org/works/index.html ANTLRWorks] is a novel grammar development environment for ANTLR v3 grammars. ANTLRWorks has an [http://plugins.intellij.net/plugin/?id=953 IntelliJ IDEA Plugin]. There are also [http://www.antlr.org/wiki/display/ANTLR3/Integration+with+Development+Environments other IDEA plugins] available. 
-
