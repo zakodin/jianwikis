@@ -318,7 +318,7 @@ public class UidParser {
 }
 }}}
 
-== Test ==
+== Unit Test ==
 
 To test the generated parser, UidParser, we can use JUnit 4 to test it.
 
