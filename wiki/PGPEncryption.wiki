@@ -1,0 +1,134 @@
+#summary PGP Encryption.
+<wiki:toc max_depth="5" />
+
+= Introduction =
+
+I like to provide some guides on how to create PGP keys and how to use PGP to encrypt and decrypt messages as well as signing and verifying signatures. 
+
+= Prerequisites =
+
+Your system should have PGP software installed. In Linux system, you can use GnuPG and most Linux systems have GnuPGP installed by default. If not, you can download the rpm or use "yum" to install it.
+
+= Key Management = 
+
+Assume we have two users "Pgp Sender" and "Pgp Receiver" in all the following examples. 
+
+== Generate Key ==
+
+{{{
+[pgpsender@ ~]$ gpg --gen-key
+gpg (GnuPG) 1.4.7; Copyright (C) 2006 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+gpg: directory `/home/pgpsender/.gnupg' created
+gpg: new configuration file `/home/pgpsender/.gnupg/gpg.conf' created
+gpg: WARNING: options in `/home/pgpsender/.gnupg/gpg.conf' are not yet active during this run
+gpg: keyring `/home/pgpsender/.gnupg/secring.gpg' created
+gpg: keyring `/home/pgpsender/.gnupg/pubring.gpg' created
+Please select what kind of key you want:
+   (1) DSA and Elgamal (default)
+   (2) DSA (sign only)
+   (5) RSA (sign only)
+Your selection? 1
+DSA keypair will have 1024 bits.
+ELG-E keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048) 
+Requested keysize is 2048 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 
+Key does not expire at all
+Is this correct? (y/N) y
+
+You need a user ID to identify your key; the software constructs the user ID
+from the Real Name, Comment and Email Address in this form:
+    "Heinrich Heine (Der Dichter) <heinrichh@duesseldorf.de>"
+
+Real name: Pgp Sender
+Email address: Pgp.Sender@telluriumsource.org
+Comment: PGP Sender
+You selected this USER-ID:
+    "Pgp Sender (PGP Sender) <Pgp.Sender@telluriumsource.org>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+You need a Passphrase to protect your secret key.
+
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+++++++++++++++++++++++++++++++.++++++++++.+++++...++++++++++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++++++>.+++++.+++++..................+++++
+
+Not enough random bytes available.  Please do some other work to give
+the OS a chance to collect more entropy! (Need 267 more bytes)
+
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+++++++++++.+++++++++++++++++++++++++..++++++++++..++++++++++.+++++...++++++++++++++++++++++++++++++......+++++++++++++++++++++++++++++++++++++++++++++.++++++++++>+++++..+++++>+++++........................................................................................+++++^^^^^
+gpg: /home/pgpsender/.gnupg/trustdb.gpg: trustdb created
+gpg: key 8A56628C marked as ultimately trusted
+public and secret key created and signed.
+
+gpg: checking the trustdb
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+pub   1024D/8A56628C 2009-05-11
+      Key fingerprint = 9F7F 968D 71D8 39A6 7BD2  53EB 4EDD 123D 8A56 628C
+uid                  Pgp Sender (PGP Sender) <Pgp.Sender@telluriumsource.org>
+sub   2048g/9275EE43 2009-05-11
+}}}
+
+== Export Public Key ==
+
+{{{
+  
+[pgpsender@ ~]$  gpg --export --armor > PGPSender.asc
+
+[pgpsender@ ~]$ cat PGPSender.asc 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.7 (GNU/Linux)
+
+mQGiBEoIe2kRBACQp9YyMOdS5oEAupc7t4MgSD4BQMiwl8+YqDHudDo2rlLqHjxi
+WbVTV2p4QzwzH7JXp59NrHvF9Pt4Sh8Yt06br7oChgSJY14gzTxBN0C5YhZVgNem
+avdqGdgH1elpRF3pfRLhhw3IwkxkrIeCA6Knb2m2HkfZqvw96E1N/iBTkwCg7rot
+nEoh+wiUq5M4gTujx9MfsYsD/Rm57y7GDyB7jPD81A4MVMADr7gMEFR8qV+4RwyL
+no8ILWKugce2Amo9Hp5B7JrXWbQzlKD6vLt8ylfY3Z/uEd/C3zBzNqul8S1Cak9j
+U4pC0iijGfPCbQjDyQl+9WRvTc957REpjz5zlLfJNLfQ9/in7b+HZWOIYWZ2Htgn
+6SRBA/9ZTw0Kaxx/2iF6UGMNA4eSCcU5b/9CCiy2E/042Nm0X9fXPpeqcbeXK2Hq
+eFneWdQd5rvIgqNtvUTJez3gohPLcovzjkz6cCPgs0GTm4kbzvf9KqPYQlbiTFzX
+i710OAsC3CHLlkbKX4FmL4cfwibVasqa3zUbBk3oL8+oqhAZLLQtUGdwIFNlbmRl
+ciAoUEdQIFNlbmRlcikgPFJhbS5HdW1tYWRpQEpUVi5jb20+iGAEExECACAFAkoI
+e2kCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBO3RI9ilZijCD8AJ4nhTJX
+5hVX2g1X4J6wa1I0bbbGngCfeyGyHfcB85xqS61C6J5nDoRLcHW5Ag0ESgh7aRAI
+AKtF4X3Qig7vh0a/NUTXPYo4xJf7mIL++6TwSSfrcG/+wcjoZmVSag+iKUQMYbQW
+mbHxNDwegC95OEvkfoC4h/KWJR6o6TEdPd8Ll7fQtF4M4nHzTrVgP4REgKyBszgs
++GyDy/8i3Gz7c9L6q0rV2SZiDXioRfC1pj/9HbrpfBL3UKheR7Ekee/ZJA/v7WJ8
+h8tm26OnYqqTCHQyLbqRZovRPkqJLC2pRh+LahZZYjVD0/1Du/U3pIiQN/jHF4/p
+xAuNegD5ATpuPm5DxYyo5IBnGpCEPvfU4OweWzWpAQkoU9pVGS4t0NOYljNbZBIc
+CRcs/+3JZ3uM8JGRlFulsy8AAwcH/1CPCgkrnWOm5TJ5u+aQto0IeNXlxlAzIxbh
+/3TWDaSvsJ2TBg34ICXDO8tfBV5xEzicCWPr4RicPgu339rMgTDkbH0MTCWXHphG
+/39X7xaa04f9yOgdMf6H6WTzSwS+DI1Qw0qP0q57eJKosZ+8Ik31r6DOv0zcxpWg
+meShb8LZoxgMpE0gDPiiNVPDyV3d/fVTT1M2jtBr90BmgcODsnaNF9qFJIyt5YI9
+lqWdkYX/Zga9Nn3+77a4Beaz2bmj54XTVEgTOju96+G03/Yx5Hevf8yk1tY1697U
+G90gUsfsUiCPefeHiqvU3slnGRzS4G+66A47mlbA1+DdjgWXQY+ISQQYEQIACQUC
+Sgh7aQIbDAAKCRBO3RI9ilZijO41AJ4npFJNNwX97SR1hqETO68ZzRu2TwCg030g
+rp46alPjGhTKZyL3OeB395Q==hET8
+-----END PGP PUBLIC KEY BLOCK---
+
+}}}
+
+
+Similarly, you can use the following command to export your private key.
+
+{{{
+   gpg --armor --export-secret-keys Pgp.Sender@telluriumsource.org  > PGPSender.privatekey.asc
+}}}
+
