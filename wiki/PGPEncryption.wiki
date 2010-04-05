@@ -333,3 +333,9 @@ For PGP, some encryption key such as Elgamal key is longer than 1024. In order t
   * Locate your JDK installation and navigate to the jre/lib/security folder.
   * Copy the local_policy.jar and US_export_policy.jar files to a backup location.
   * Unpack the jce_policy-6.zip and copy the previous two jars into the jre/lib/security folder. 
+
+= PGP Email Plugins =
+
+[http://enigmail.mozdev.org/home/index.php Enigmail] is a PGP Email plugin for Thunderbird and it is a .xpi file. You can simply download it and install it just like installing a Firefox plugin. 
+
+For Windows system, you can try [http://www.gpg4win.org/ Gpg4win] or [http://www.gnu.org/software/software.html Crypto Anywhere]
