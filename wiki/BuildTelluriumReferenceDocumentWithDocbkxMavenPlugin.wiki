@@ -235,10 +235,75 @@ Link can be defined with {{{xlink:href}}}.
 == Image ==
 
 {{{
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="./media/tellurium3.png" scalefit="1" width="100%"></imagedata>
-            </imageobject>
-        </mediaobject>
+<mediaobject>
+   <imageobject>
+      <imagedata fileref="./media/tellurium3.png" scalefit="1" width="100%"></imagedata>
+   </imageobject>
+</mediaobject>
+}}}
 
+where scalefit is an option to fit to the width. Another option is scale to change the image size.
+
+== programlist ==
+
+programlist is used to include code snippet.
+
+{{{
+<programlisting language="java"><?db-font-size 75% ?>
+<![CDATA[
+ui.Form(uid: "Form", clocator: [tag: "form"]){
+   Div(uid: "User", clocator: [:]){
+      Selector(uid: "Sex", clocator: [:])
+      InputBox(uid: "Input", clocator: [tag: "input", type: "text",
+                name: "j_username"])
+   }
+   Container(uid: "Finish", clocator: [tag: "tr"]){
+      SubmitButton(uid: "Submit", clocator: [tag: "input", type: "submit",
+                value: "Login", name: "submit"])
+   }
+}
+]]>
+</programlisting>
+}}}
+
+where {{{<?db-font-size 75% ?>}}} is used to scale the code font size. In the meanwhile, the xsl style sheet must use the following transformation to change font size.
+
+{{{
+    <xsl:attribute-set name="monospace.verbatim.properties">
+      <xsl:attribute name="font-size">
+        <xsl:choose>
+          <xsl:when test="processing-instruction('db-font-size')"><xsl:value-of
+               select="processing-instruction('db-font-size')"/></xsl:when>
+          <xsl:otherwise>inherit</xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+    </xsl:attribute-set>
+}}} 
+
+== list ==
+
+{{{itemlist}}} is used to represent a list, for example.
+
+{{{
+<itemizedlist>
+   <listitem>
+      <para>tellurium-junit-archetype</para>
+   </listitem>
+   <listitem>
+      <para>tellurium-testng-archetype</para>
+   </listitem>
+</itemizedlist>
+}}}
+
+If we need an ordered list with number index, we can use {{{orderedlist}}} instead.
+
+{{{
+<orderedlist>
+   <listitem>
+      <para>address the dynamic factors in Tellurium UI templates</para>
+   </listitem>
+   <listitem>
+       <para>increase the flexibility of Tellurium UI templates.</para>
+   </listitem>
+</orderedlist>
 }}}
