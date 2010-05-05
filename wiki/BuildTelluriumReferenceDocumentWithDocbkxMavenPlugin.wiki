@@ -67,6 +67,34 @@ The Maven pom is as follows.
         </pluginRepository>
     </pluginRepositories>
 }}}
+
+The project structure is listed as follows.
+
+{{{
+[jfang@Mars tellurium-reference]$ tree .
+.
+|-- pom.xml
+`-- src
+    |-- docbkx
+    |   |-- media
+    |   |   |-- EngineGroupLocatingFlow.png
+    |   |   |-- ExportToGroovySmall.png
+    |   |   |-- FireFoxUserProfile.png
+    |   |-- overview.xml
+    |   |-- quickstart.xml
+    |   |-- referenceprojects.xml
+    |   |-- resources.xml
+    |   |-- tellurium-reference.xml
+    |   |-- trace.xml
+    |   |-- trump.xml
+    |   |-- udl.xml
+    |   |-- uiobjects.xml
+    |   |-- whatsnew.xml
+    |   `-- widgets.xml
+    `-- docbkx-stylesheet
+        `-- fo
+            `-- docbook.xsl
+}}}
    
 = DocBook =
 
