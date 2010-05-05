@@ -121,7 +121,9 @@ DocBook has two types, i.e., article and book. Tellurium reference uses the book
 
 Each chapter has the following XML format. For example, the overview.xml is as follows.
 
-{{{<?xml version="1.0" encoding="UTF-8"?>
+{{{
+
+<?xml version="1.0" encoding="UTF-8"?>
 <chapter version="5.0" xmlns="http://docbook.org/ns/docbook"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:xi="http://www.w3.org/2001/XInclude"
