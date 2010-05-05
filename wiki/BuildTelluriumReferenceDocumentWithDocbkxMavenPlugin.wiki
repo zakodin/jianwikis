@@ -1,0 +1,72 @@
+#summary Build Tellurium Reference Document with Docbkx Maven Plugin.
+#labels Phase-Design,Phase-Support
+
+= Introduction =
+
+Tellurium 0.7.0 starts to use [http://docbook.sourceforge.net/ docbook] to build the reference document. What is docbook? We quote from http://docbook.sourceforge.net/, "DocBook  is an XML vocabulary that lets you create documents in a presentation-neutral form that captures the logical structure of your content. Using free tools along with the DocBook XSL stylesheets, you can publish your content as HTML pages and PDF files, and in many other formats."
+
+= Maven =
+
+[http://code.google.com/p/docbkx-tools/ docbkx tools] provides a number of tools supporting DocBook in a Maven environment including the [http://docs.codehaus.org/display/MAVENUSER/Docbkx+Maven+Plugin Docbkx Maven Plugin]. The good news is that the Docbkx Maven plugin supports [http://www.docbook.org/tdg5/en/html/docbook.html DocBook version 5.0].
+
+The Maven pom is as follows.
+
+{{{
+   <build>
+        <plugins>
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <version>2.0.10-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>documentation identifier</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <configuration>
+                            <!-- per execution configuration -->
+                            <includes>tellurium-reference.xml</includes>
+                            <!--<draftMode>yes</draftMode>-->
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- shared configuration -->
+                    <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
+                    <xincludeSupported>true</xincludeSupported>
+                    <paperType>A4</paperType>
+                    <fop1Extensions>1</fop1Extensions>
+
+                    <foCustomization>src/docbkx-stylesheet/fo/docbook.xsl</foCustomization>
+
+                    <customizationParameters>
+                        <!-- additional XSLT parameters-->
+                        <parameter>
+                            <name>key</name>
+                            <value>value</value>
+                        </parameter>
+                    </customizationParameters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>docbkx.snapshots</id>
+            <name>Maven Plugin Snapshots</name>
+            <url>http://docbkx-tools.sourceforge.net/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+}}}
+   
+
+ 
