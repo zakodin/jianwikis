@@ -244,6 +244,16 @@ Link can be defined with {{{xlink:href}}}.
 
 where scalefit is an option to fit to the width. Another option is scale to change the image size.
 
+== screen ==
+
+screen is used to show console output.
+
+{{{
+<screen>
+   java -jar selenium-server.jar -singlewindow
+</screen>
+}}}
+
 == programlist ==
 
 programlist is used to include code snippet.
@@ -306,4 +316,38 @@ If we need an ordered list with number index, we can use {{{orderedlist}}} inste
        <para>increase the flexibility of Tellurium UI templates.</para>
    </listitem>
 </orderedlist>
+}}}
+
+== table ==
+
+the table tag is used to represent a table in docbook. For example.
+
+{{{
+         <table id="uiobjectattributes">
+          <title>UI Object Attributes</title>
+          <tgroup cols="2">
+            <colspec colname="c1" colwidth="1*" />
+            <colspec colname="c2" colwidth="1*" />
+            <thead>
+              <row>
+                <entry>ATTRIBUTE</entry>
+                <entry>DESCRIPTION</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>UI Object</entry>
+                <entry>Basic Tellurium component</entry>
+              </row>
+              <row>
+                <entry>UiID</entry>
+                <entry>UI object's identifier</entry>
+              </row>
+              <row>
+                <entry>Namespace</entry>
+                <entry>Used for XHTML</entry>
+              </row>
+           </tbody>
+          </tgroup>
+        </table>
 }}}
