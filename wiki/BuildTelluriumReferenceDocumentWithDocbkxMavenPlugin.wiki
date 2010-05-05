@@ -196,4 +196,49 @@ Similarly, the appendix is defined as:
 </appendix>
 }}}
 
+== section ==
+
+section can be nested in docbook, for example.
+
+{{{
+    <section>
+        <title>Setup Tellurium Project in IDEs</title>
+        <para>A Tellurium Project can be run in IntelliJ, NetBeans, Eclipse, or other IDEs that have
+            Groovy support.
+        </para>
+
+        <para>If using Maven, open the POM file to let the IDE automatically build the project files.
+        </para>
+
+        <section>
+            <title>IntelliJ IDEA</title>
+            <para>
+                IntelliJ IDEA Community edition is free and can be downloaded from 
+            </para>
+
+        </section>
+       ...
+  <section>
+}}}
  
+== Link ==
+
+Link can be defined with {{{xlink:href}}}.
+
+{{{
+<para>
+  IntelliJ IDEA Community edition is free and can be downloaded from<link xlink:href="http://www.jetbrains.com/idea/download/"> http://www.jetbrains.com/idea/download/</link>. A detailed guide is found on<link xlink:href="http://code.google.com/p/aost/wiki/CustomTelluriumIntelliJProject">How to
+ create your own Tellurium testing project with IntelliJ 9.0 Community Edition</link>.
+</para>
+}}}
+
+== Image ==
+
+{{{
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="./media/tellurium3.png" scalefit="1" width="100%"></imagedata>
+            </imageobject>
+        </mediaobject>
+
+}}}
