@@ -70,6 +70,8 @@ The Maven pom is as follows.
    
 = DocBook =
 
+== Book ==
+
 DocBook has two types, i.e., article and book. Tellurium reference uses the book format, which includes the following sections.
 
 {{{
@@ -113,6 +115,55 @@ DocBook has two types, i.e., article and book. Tellurium reference uses the book
         </legalnotice>
 
      </info>
+}}}
+
+== Chapter ==
+
+Each chapter has the following XML format. For example, the overview.xml is as follows.
+
+{{{<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:ns5="http://www.w3.org/2000/svg"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+
+    <title>Overview of Tellurium</title>
+    
+    <section>
+        <title>What is Tellurium</title>
+    ...
+
+<chapter>
+}}}
+
+Then in the main XML file tellurium-reference.xml, we can include the xml file in the following way.
+
+{{{
+    <xi:include href="overview.xml"/>
+
+    <xi:include href="whatsnew.xml"/>
+
+    <xi:include href="quickstart.xml"/>
+}}}
+
+Similarly, the appendix is defined as:
+
+{{{
+<appendix version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:ns5="http://www.w3.org/2000/svg"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+
+     <title>FAQs</title>
+     ...
+
+</appendix>
 }}}
 
  
