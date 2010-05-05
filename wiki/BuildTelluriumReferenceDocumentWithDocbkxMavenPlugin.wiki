@@ -351,3 +351,26 @@ the table tag is used to represent a table in docbook. For example.
           </tgroup>
         </table>
 }}}
+
+= Tools =
+
+There are couple [http://wiki.docbook.org/topic/ConvertOtherFormatsToDocBook tools] to convert docBook to and from different formats. For example, we can use the following command [http://www.michael-a-fuchs.de/ herold] to convert html to docbook.
+
+{{{
+herold --in=udl.html --out=udl.xml -r book -T
+}}}
+
+But the converted docbook version is 1.0 and we still need manually change some docbook formats in the converted file.
+
+= Resources =
+
+  * [http://docbook.sourceforge.net/ DocBook]
+  * [http://code.google.com/p/docbkx-tools/ Docbkx tools]
+  * [http://docs.codehaus.org/display/MAVENUSER/Docbkx+Maven+Plugin Docbkx Maven Plugin]
+  * [http://wiki.docbook.org/topic/ConvertOtherFormatsToDocBook Convert Other Formats To DocBook]
+  * [http://www.docbook.org/tdg5/en/html/docbook.html DocBook 5.0: The Definitive Guide]
+  * [http://www.michael-a-fuchs.de/ herold]
+  * [http://code.google.com/p/aost Tellurium Automated Testing Framework]
+  * [http://twitter.com/TelluriumSource Tellurium on Twitter]
+  * [http://groups.google.com/group/tellurium-users Tellurium User Group]
+  * [http://telluriumsource.org TelluriumSource]
