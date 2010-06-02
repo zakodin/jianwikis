@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Seems Spring provides a [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/testing.html#testcontext-framework TextContext framework] to load up test context from 2.5. I really didn't try that feature until now. I can see the TextContext is very elegant to define the context by annotations. Here I list my steps to make it work.
+Seems Spring provides a [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/testing.html#testcontext-framework TextContext framework] to load up test context starting from 2.5. I didn't have a chance to try that feature until now. The TextContext is very elegant to define the context by annotations. Here I list my steps to make it work.
 
 = Maven Dependency =
 
@@ -19,7 +19,7 @@ The TextContext framework can be included by the following Maven dependency.
 
 = Test Case =
 
-Take a circuit breaker application as an example, I want to test the interceptor. The test case is as follows.
+Take a circuit breaker application as an example, I want to test the interceptor. The test case is defined as follows.
 
 {{{
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +49,7 @@ public class CircuitBreakerInterceptor_FuncTest {
 }
 }}}
 
-If we use @ContextConfiguration without any parameter, the framework assume that your context xml file is the class name plus "-context.xml". In our case, the file name is CircuitBreakerInterceptor_FuncTest-context.xml.
+If we use @ContextConfiguration without any parameters, the framework assumes that our  context xml file uses the name convention, i.e., the class name plus "-context.xml". In our case, the file name is CircuitBreakerInterceptor_FuncTest-context.xml.
 
 If we want a different file name, we can specify it either by class path resource
 
