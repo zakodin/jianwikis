@@ -10,7 +10,7 @@ Recently, I worked on a Firefox plugin called [http://code.google.com/p/aost/wik
 
 == Application Window ==
 
-Tellurium IDE used jQuery a lot. But be aware that the main target of Tellurium IDE is the application window, not the Firefox plugin XUL window itself. Thus, we need to pay attention to the document variable and make sure it is the application window when we work on record and replay.
+Tellurium IDE used jQuery a lot. But be aware that the main target of Tellurium IDE is the application window, not the Firefox plugin XUL window itself. Thus, I need to pay attention to the document variable and make sure it is the application window when I work on record and replay.
 
 Fortunately, Mozilla provides two Apis to retrieve the application windows, i.e.,
 
@@ -20,7 +20,7 @@ getMostRecentWindow();
 getEnumerator();
 }}}
 
-The former gets back the most recent window and the latter returns all application windows. For example, in Tellurium IDE, we defined the following methods for different purposes.
+The former gets back the most recent window and the latter returns all application windows. For example, in Tellurium IDE, I defined the following methods for different purposes.
 
 {{{
     getMostRecentDocument: function() {
@@ -49,7 +49,7 @@ The former gets back the most recent window and the latter returns all applicati
 
 == Event Listeners for recording ==
 
-To record a user's actions such as type and click, we need to register event listeners and unregister them when the recording is done. In Tellurium IDE, we used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web elements exist, which is really cool and greatly simplified our design and implementation.
+To record a user's actions such as type and click, I need to register event listeners and unregister them when the recording is done. In Tellurium IDE, I used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web elements exist, which is really cool and greatly simplified our design and implementation.
 
 {{{
 Recorder.prototype.attachActionListeners = function(window){
@@ -80,9 +80,9 @@ Recorder.prototype.attachActionListeners = function(window){
 
 }}}
 
-where _teJQuery_ is an alias for _jQuery_ to avoid name conflict with _jQuery_ in application, which could be in a different version. Also, we noticed that the "beforeunload" event is kinda of special and we have to register it in a regular way.
+where _teJQuery_ is an alias for _jQuery_ to avoid name conflict with _jQuery_ in application, which could be in a different version. Also, I noticed that the "beforeunload" event is kinda of special and I have to register it in a regular way.
 
-You may also noticed that we passed event data such as {{{recorder: this}}}, which is a very elegant way to pass in the recorder object to the event handler. The event handler retrieves the event data and gets hold of the recorder object as follows.
+You may also noticed that I passed event data such as {{{recorder: this}}}, which is a very elegant way to pass in the recorder object to the event handler. The event handler retrieves the event data and gets hold of the recorder object as follows.
 
 {{{
 Recorder.prototype.typeListener = function(event) {
@@ -96,7 +96,7 @@ Recorder.prototype.typeListener = function(event) {
 
 }}}
 
-To unregister the event listeners, we used [http://api.jquery.com/die jQuery die API].
+To unregister the event listeners, I used [http://api.jquery.com/die jQuery die API].
 
 {{{
 Recorder.prototype.detachActionListeners = function(window){
@@ -113,7 +113,7 @@ Recorder.prototype.detachActionListeners = function(window){
 
 == Record Multiple Application Windows ==
 
-When a user acts on the web application, the page may be refreshed or redirected. For the new pages, we need to attach event listeners to them as well so that we can record the user's actions. The key is the "DOMContentLoaded" event. We used the following script to detect and attach to the "DOMContentLoaded" event.
+When a user acts on the web application, the page may be refreshed or redirected. For the new pages, I need to attach event listeners to them as well so that I can record the user's actions. The key is the "DOMContentLoaded" event. I used the following script to detect and attach to the "DOMContentLoaded" event.
 
 {{{
        var TelluriumIDE = {
@@ -174,7 +174,7 @@ Another observation is that the "appcontent" can only be obtained from XUL overl
 
 == Autocomplete ==
 
-We reused the autocomplete component from Selenium IDE. First, we defined the textbox to be of an autocomplete type.
+I reused the autocomplete component from Selenium IDE. First, I defined the textbox to be of an autocomplete type.
 
 {{{
             <textbox id="windowURL" flex="1" tooltiptext="&windowURLTextbox.tooltip;"
@@ -183,14 +183,14 @@ We reused the autocomplete component from Selenium IDE. First, we defined the te
                      forcecomplete="true" tabscrolling="true"/>
 }}}
 
-Then, we get access to the autocomplete component in the Editor function.
+Then, I get access to the autocomplete component in the Editor function.
 
 {{{
 Editor.GENERIC_AUTOCOMPLETE = Components.classes["@mozilla.org/autocomplete/search;1?name=selenium-ide-generic"].getService(Components.interfaces.nsISeleniumIDEGenericAutoCompleteSearch);
 
 }}}
 
-To populate the autocomplete list, we can use the following code.
+To populate the autocomplete list, I can use the following code.
 
 {{{
         var uiTypes = this.builder.getAvailableUiTypes();
@@ -198,7 +198,7 @@ To populate the autocomplete list, we can use the following code.
 
 }}}
 
-Similarly, we use the following code to remove the autocomplete list.
+Similarly, I use the following code to remove the autocomplete list.
 
 {{{
                 Editor.GENERIC_AUTOCOMPLETE.clearCandidates(XulUtils.toXPCOMString(this.autoCompleteSearchParams["uiType"]));
@@ -207,7 +207,7 @@ Similarly, we use the following code to remove the autocomplete list.
 
 == Broadcaster and Observers==
 
-XUL uses broadcaster to publish a state change event and all the observers will change its state accordingly. For example, we defined the following broadcaster to indicate if the IDE is in the recording state or not.
+XUL uses broadcaster to publish a state change event and all the observers will change its state accordingly. For example, I defined the following broadcaster to indicate if the IDE is in the recording state or not.
 
 {{{
     <broadcasterset>
@@ -252,7 +252,7 @@ The textbox observes the data change and update the value on the GUI accordingly
 
 Test script includes two parts, i.e., UI modules and commands. A UI module is generated by an algorithm and then reference IDs in commands are replaced with UIDs accordingly. For more details, please see [http://code.google.com/p/aost/wiki/TelluriumIde080RC1#Design Tellurium IDE design].
 
-Be aware, we need to pass the root DOM element or application document in jQuery selector. For example,
+Be aware, I need to pass the root DOM element or application document in jQuery selector. For example,
 
 {{{
     var $extras = teJQuery(root.domNode).find("input, link, form, select, button, table").filter(":visible");
