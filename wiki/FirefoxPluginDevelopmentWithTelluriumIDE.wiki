@@ -1,0 +1,7 @@
+#summary My Firefox Plugin Development Experience with Tellurium IDE.
+#labels Phase-Implementation,Phase-Support
+
+= Introduction =
+
+Recently, I worked on a Firefox plugin called [http://code.google.com/p/aost/wiki/TelluriumIde080RC1 Tellurium IDE], which is a derivative from our existing Firefox Plugin [http://code.google.com/p/aost/wiki/TrUMP Tellurium UI Module Plugin]. The main feature of the Tellurium IDE is to record, automatically generate Tellurium DSL scripts, and play tests. I like to share my experience with you, but I will not cover the basics of Firefox plugin development such as XUL, but focus mainly on the implementation details on the new features.
+
