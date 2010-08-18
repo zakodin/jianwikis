@@ -5,3 +5,43 @@
 
 Recently, I worked on a Firefox plugin called [http://code.google.com/p/aost/wiki/TelluriumIde080RC1 Tellurium IDE], which is a derivative from our existing Firefox Plugin [http://code.google.com/p/aost/wiki/TrUMP Tellurium UI Module Plugin]. The main feature of the Tellurium IDE is to record, automatically generate Tellurium DSL scripts, and play tests. I like to share my experience with you, but I will not cover the basics of Firefox plugin development such as XUL, but focus mainly on the implementation details on the new features.
 
+= Implementation =
+
+== Application Window ==
+
+Tellurium IDE used jQuery a lot. But be aware that the main target of Tellurium IDE is the application window, not the Firefox plugin XUL window itself. Thus, we need to pay attention to the document variable and make sure it is the application window when we work on the application record and test play.
+
+Fortunately, Mozilla provides two Apis to retrieve the application windows, i.e.,
+
+{{{
+getMostRecentWindow();
+
+getEnumerator();
+}}}
+
+The former gets back the most recent window and the latter returns all application windows. For example, in Tellurium IDE, we defined the following methods for different purposes.
+
+{{{
+    getMostRecentDocument: function() {
+        var win = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                .getService(Components.interfaces.nsIWindowMediator)
+                .getMostRecentWindow("navigator:browser");
+
+        return win.getBrowser().contentDocument;
+    },
+
+    getAllWindows: function() {
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+        var e = wm.getEnumerator("navigator:browser");
+        var wins = new Array();
+        while (e.hasMoreElements()) {
+            var window = e.getNext();
+            var browsers = window.getBrowser().browsers;
+            for (var i = 0; i < browsers.length; i++) {
+                wins.push(browsers[i].contentWindow);
+            }
+        }
+
+        return wins;
+    }
+}}}
