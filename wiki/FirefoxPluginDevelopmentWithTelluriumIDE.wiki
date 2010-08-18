@@ -168,3 +168,38 @@ Editor.prototype.onDOMContentLoaded = function(event) {
 }}}
 
 As you can see, it tries to register event listeners for the new page if it is still in the recording mode.
+
+Another observation is that the "appcontent" can only be obtained from XUL overlay, otherwise, it is null.
+
+== Autocomplete ==
+
+We reused the autocomplete component from Selenium IDE. First, we defined the textbox to be of an autocomplete type.
+
+{{{
+            <textbox id="windowURL" flex="1" tooltiptext="&windowURLTextbox.tooltip;"
+                     oninput="window.editor.setWindowURL(this.value)" 
+                     type="autocomplete" autocompletesearch="selenium-ide-generic" enablehistory="true"
+                     forcecomplete="true" tabscrolling="true"/>
+}}}
+
+Then, we get access to the autocomplete component in the editor.js.
+
+{{{
+Editor.GENERIC_AUTOCOMPLETE = Components.classes["@mozilla.org/autocomplete/search;1?name=selenium-ide-generic"].getService(Components.interfaces.nsISeleniumIDEGenericAutoCompleteSearch);
+
+}}}
+
+To populate the autocomplete list, we can use the following code.
+
+{{{
+        var uiTypes = this.builder.getAvailableUiTypes();
+        Editor.GENERIC_AUTOCOMPLETE.setCandidates(XulUtils.toXPCOMString(this.getAutoCompleteSearchParam("uiType")), XulUtils.toXPCOMArray(uiTypes));
+
+}}}
+
+Similarly, we use the following code to remove the autocomplete list.
+
+{{{
+                Editor.GENERIC_AUTOCOMPLETE.clearCandidates(XulUtils.toXPCOMString(this.autoCompleteSearchParams["uiType"]));
+
+}}}
