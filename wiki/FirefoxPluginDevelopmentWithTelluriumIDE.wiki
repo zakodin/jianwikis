@@ -109,3 +109,42 @@ Recorder.prototype.detachActionListeners = function(window){
     teJQuery(window.document).find("select, option").die("change", this.selectListener);
 };
 }}}
+
+== Record Multiple Application Windows ==
+
+When user acts on the web application, the page may be refreshed or redirected. For the new pages, we need to attach event listeners to them as well so that we can record user's actions. The key is the "DOMContentLoaded" event. We used the following script to detect and attach to the "DOMContentLoaded" event.
+
+{{{
+       var TelluriumIDE = {
+            onLoad: function() {
+                this.initialized = true;
+                var appcontent = document.getElementById("appcontent");   
+                if (appcontent) {
+                    var self = this;
+                    appcontent.addEventListener("DOMContentLoaded", function(event) {
+                        self.onContentLoaded(event);
+                    }, false);
+                    appcontent.addEventListener("load", this.onPageLoad, true);
+                }
+            },
+
+            onContentLoaded: function(event) {
+                var editor = this.getEditor();
+                if (editor) {
+                    editor.onDOMContentLoaded(event);
+                }
+
+            getEditor: function() {
+                var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+                var editorWindow = wm.getMostRecentWindow('global:tellurium-ide');
+
+                return editorWindow.editor;
+            }
+
+        };
+
+        window.addEventListener("load", function(e) {
+            TelluriumIDE.onLoad(e);
+        }, false);
+
+}}}
