@@ -1,5 +1,6 @@
 #summary My Firefox Plugin Development Experience with Tellurium IDE.
 #labels Phase-Implementation,Phase-Support
+<wiki:toc max_depth="5" />
 
 = Introduction =
 
@@ -203,3 +204,46 @@ Similarly, we use the following code to remove the autocomplete list.
                 Editor.GENERIC_AUTOCOMPLETE.clearCandidates(XulUtils.toXPCOMString(this.autoCompleteSearchParams["uiType"]));
 
 }}}
+
+== Broadcaster and Observers==
+
+XUL uses broadcaster to publish a state change and all the observers will change its state accordingly. For example, we defined the following broadcaster to indicate if the IDE is in the recording state or not.
+
+{{{
+    <broadcasterset>
+        <broadcaster id="isRecording" disabled="true"/>
+    </broadcasterset>
+}}}
+
+The observers are the test play buttons such as "Step", "Run", and "Stop" and these buttons all watch over the "disabled" attribute from the broadcaster. 
+
+{{{
+        <toolbarbutton id="step-button" label="Step" tooltiptext="&step.tooltip;"
+                       oncommand="window.editor.stepButton()">
+            <observes element="isRecording" attribute="disabled"/>
+        </toolbarbutton>
+        <toolbarbutton id="run-button" label="Run" tooltiptext="&run.tooltip;" oncommand="window.editor.runButton()" class="run">
+            <observes element="isRecording" attribute="disabled"/>
+        </toolbarbutton>
+        <toolbarbutton id="stop-button" label="Stop" class="icon" tooltiptext="&stopButton.tooltip;"
+                       oncommand="window.editor.toggleStopButton()">
+            <observes element="isRecording" attribute="disabled"/>
+        </toolbarbutton>
+ 
+}}}
+
+If the disabled is changed to false in the broadcaster, all the three buttons will become enabled. This is a really elegant way without many lines of code.
+
+== Scale ==
+
+Firefox 3 change the slider to a scale widget, which could be used to control a data range. Tellurium IDE uses scale to control the interval between two commands when run tests, i.e., test speed.
+
+{{{
+        <hbox>
+            <scale value="1000" min="300" max="3000" increment="100" id="testSpeedSlider"
+                   showLabel="true" labelPosition="below" onchange="window.editor.updateTestSpeed(this.value)"/>
+            <textbox label="&TestSpeed.label;" readonly="true" observes="testSpeedSlider" size="4" maxlength="4"/>
+        </hbox>
+}}}
+
+The textbox observes the data change and update the value display accordingly.
