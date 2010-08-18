@@ -260,11 +260,11 @@ Be aware, we need to pass the root DOM element or application document in jQuery
 
 == Test Runner ==
 
-The test-runner.js is implemented as the test runner to play recorded Tellurium test scripts. The tests are run by acting on the application window directly instead of loading up the application is a iframe like Selenium does. The test driving engine is powered whole by Tellurium new engine, which is based on jQuery and tellurium UI module group locating algorithm. 
+The test-runner.js is implemented as the test runner to play recorded Tellurium test scripts. The tests are run by acting on the application window directly instead of loading up the application in a iframe like Selenium does. The test driving engine is powered wholely by Tellurium new engine, which is based on jQuery and tellurium UI module group locating algorithm. 
 
 = Summary =
 
-Tellurium IDE is our first step to automatically generate Tellurium test script, which are different from Selenium test script. The former one does not use locator directly but use UI module to define the UI widget, then use Tellurium framework to locate the UI module, which makes Tellurium robust and expressive. Thus, Tellurium IDE solves the test robust problems Selenium faced to a great degree. Tellurium IDE is a work in progress. If you like it and want to contribute to it. Please contact me directly. Thanks in advance.
+Tellurium IDE is our first step to automatically generate Tellurium test script, which is different from Selenium test script. The former one does not use locator directly but use UI module to define the UI widget, then use Tellurium framework to locate the UI module, which makes Tellurium robust to changes and expressive. Thus, Tellurium IDE does not suffer the problems that other record and replay IDEs faced. Tellurium IDE is a work in progress. If you like it and want to contribute to it. Please contact me directly. Thanks in advance.
 
 = Resources =
 
@@ -274,5 +274,3 @@ Tellurium IDE is our first step to automatically generate Tellurium test script,
   * [http://code.google.com/p/aost/ Tellurium Project Home]
   * [http://groups.google.com/group/tellurium-users Tellurium User Group]
   * [http://twitter.com/TelluriumSource Tellurium on Twitter]
-
-
