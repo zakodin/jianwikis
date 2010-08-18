@@ -273,4 +273,5 @@ Tellurium IDE is our first step to automatically generate Tellurium test script,
   * [http://www.youtube.com/watch?v=yVIBY8QzWzE/ Tellurium IDE 0.8.0 RC1 tutorial video]
   * [http://code.google.com/p/aost/ Tellurium Project Home]
   * [http://groups.google.com/group/tellurium-users Tellurium User Group]
-  * [http://twitter.com/TelluriumSource Tellurium on Twitter]
+  * [http://twitter.com/telluriumsource Tellurium on Twitter]
+  * [http://twitter.com/johnjianfang Jian Fang on Twitter]
