@@ -4,13 +4,13 @@
 
 = Introduction =
 
-Recently, I worked on a Firefox plugin called [http://code.google.com/p/aost/wiki/TelluriumIde080RC1 Tellurium IDE], which is a derivative from our existing Firefox Plugin [http://code.google.com/p/aost/wiki/TrUMP Tellurium UI Module Plugin]. The main feature of the Tellurium IDE is to record, automatically generate Tellurium DSL scripts, and play tests. I like to share my experience with you, but I will not cover the basics of Firefox plugin development such as XUL, but focus mainly on the implementation details on the new features.
+Recently, I worked on a Firefox plugin called [http://code.google.com/p/aost/wiki/TelluriumIde080RC1 Tellurium IDE], which is a derivative from our existing Firefox Plugin [http://code.google.com/p/aost/wiki/TrUMP Tellurium UI Module Plugin]. The main features of the Tellurium IDE are to record, automatically generate Tellurium DSL scripts, and play tests. I like to share my experience with you, but I will not cover the basics of Firefox plugin development such as XUL, but mainly focus on the implementation details of the new features.
 
 = Implementation =
 
 == Application Window ==
 
-Tellurium IDE used jQuery a lot. But be aware that the main target of Tellurium IDE is the application window, not the Firefox plugin XUL window itself. Thus, we need to pay attention to the document variable and make sure it is the application window when we work on the application record and test play.
+Tellurium IDE used jQuery a lot. But be aware that the main target of Tellurium IDE is the application window, not the Firefox plugin XUL window itself. Thus, we need to pay attention to the document variable and make sure it is the application window when we work on record and replay.
 
 Fortunately, Mozilla provides two Apis to retrieve the application windows, i.e.,
 
@@ -49,7 +49,7 @@ The former gets back the most recent window and the latter returns all applicati
 
 == Event Listeners for recording ==
 
-To record user's actions such as type and click, we need to register event listeners and unregister them when the recording is done. In Tellurium IDE, we used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web element exists, which greatly simplified our design and implementation.
+To record a user's actions such as type and click, we need to register event listeners and unregister them when the recording is done. In Tellurium IDE, we used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web elements exist, which is really cool and greatly simplified our design and implementation.
 
 {{{
 Recorder.prototype.attachActionListeners = function(window){
@@ -80,9 +80,9 @@ Recorder.prototype.attachActionListeners = function(window){
 
 }}}
 
-where teJQuery is an alias for jQuery to avoid name conflict with jQuery in application, which could be in a different version. Also, we noticed that "beforeunload" event is kinda of special and we have to register it in a regular way.
+where _teJQuery_ is an alias for _jQuery_ to avoid name conflict with _jQuery_ in application, which could be in a different version. Also, we noticed that the "beforeunload" event is kinda of special and we have to register it in a regular way.
 
-You may also noticed that we passed event data such as {{{recorder: this}}}, which is a very elegant way to pass in the recorder object to the event handler. For instance, the event handler retrieves the event data and gets hold of the recorder object as follows.
+You may also noticed that we passed event data such as {{{recorder: this}}}, which is a very elegant way to pass in the recorder object to the event handler. The event handler retrieves the event data and gets hold of the recorder object as follows.
 
 {{{
 Recorder.prototype.typeListener = function(event) {
@@ -113,7 +113,7 @@ Recorder.prototype.detachActionListeners = function(window){
 
 == Record Multiple Application Windows ==
 
-When user acts on the web application, the page may be refreshed or redirected. For the new pages, we need to attach event listeners to them as well so that we can record user's actions. The key is the "DOMContentLoaded" event. We used the following script to detect and attach to the "DOMContentLoaded" event.
+When a user acts on the web application, the page may be refreshed or redirected. For the new pages, we need to attach event listeners to them as well so that we can record the user's actions. The key is the "DOMContentLoaded" event. We used the following script to detect and attach to the "DOMContentLoaded" event.
 
 {{{
        var TelluriumIDE = {
@@ -183,7 +183,7 @@ We reused the autocomplete component from Selenium IDE. First, we defined the te
                      forcecomplete="true" tabscrolling="true"/>
 }}}
 
-Then, we get access to the autocomplete component in the editor.js.
+Then, we get access to the autocomplete component in the Editor function.
 
 {{{
 Editor.GENERIC_AUTOCOMPLETE = Components.classes["@mozilla.org/autocomplete/search;1?name=selenium-ide-generic"].getService(Components.interfaces.nsISeleniumIDEGenericAutoCompleteSearch);
@@ -207,7 +207,7 @@ Similarly, we use the following code to remove the autocomplete list.
 
 == Broadcaster and Observers==
 
-XUL uses broadcaster to publish a state change and all the observers will change its state accordingly. For example, we defined the following broadcaster to indicate if the IDE is in the recording state or not.
+XUL uses broadcaster to publish a state change event and all the observers will change its state accordingly. For example, we defined the following broadcaster to indicate if the IDE is in the recording state or not.
 
 {{{
     <broadcasterset>
@@ -215,7 +215,7 @@ XUL uses broadcaster to publish a state change and all the observers will change
     </broadcasterset>
 }}}
 
-The observers are the test play buttons such as "Step", "Run", and "Stop" and these buttons all watch over the "disabled" attribute from the broadcaster. 
+The observers are the test play buttons such as "Step", "Run", and "Stop". These buttons  watch over the _disabled_ attribute from the broadcaster. 
 
 {{{
         <toolbarbutton id="step-button" label="Step" tooltiptext="&step.tooltip;"
@@ -232,11 +232,11 @@ The observers are the test play buttons such as "Step", "Run", and "Stop" and th
  
 }}}
 
-If the disabled is changed to false in the broadcaster, all the three buttons will become enabled. This is a really elegant way without many lines of code.
+If the _disabled_ is changed to _false_ in the broadcaster, all the three buttons will become enabled. This implementation is a really elegant without a line of code.
 
 == Scale ==
 
-Firefox 3 change the slider to a scale widget, which could be used to control a data range. Tellurium IDE uses scale to control the interval between two commands when run tests, i.e., test speed.
+Firefox 3 changes the slider widget to a scale widget, which could be used to control a data range. Tellurium IDE used scale to control the interval between two commands when run tests, i.e., it controls the test speed.
 
 {{{
         <hbox>
@@ -246,11 +246,11 @@ Firefox 3 change the slider to a scale widget, which could be used to control a 
         </hbox>
 }}}
 
-The textbox observes the data change and update the value display accordingly.
+The textbox observes the data change and update the value on the GUI accordingly.
 
 == Test Script Generation ==
 
-Test script includes two parts, i.e., UI module and commands. UI module is generated by an algorithm and then the reference ID in commands are replaced with UID accordingly. For more details, please see [http://code.google.com/p/aost/wiki/TelluriumIde080RC1#Design Tellurium IDE design].
+Test script includes two parts, i.e., UI modules and commands. A UI module is generated by an algorithm and then reference IDs in commands are replaced with UIDs accordingly. For more details, please see [http://code.google.com/p/aost/wiki/TelluriumIde080RC1#Design Tellurium IDE design].
 
 Be aware, we need to pass the root DOM element or application document in jQuery selector. For example,
 
@@ -260,11 +260,11 @@ Be aware, we need to pass the root DOM element or application document in jQuery
 
 == Test Runner ==
 
-The test-runner.js is implemented as the test runner to play recorded Tellurium test scripts. The tests are run by acting on the application window directly instead of loading up the application in a iframe like Selenium does. The test driving engine is powered wholely by Tellurium new engine, which is based on jQuery and tellurium UI module group locating algorithm. 
+The test-runner.js is the test runner to play recorded Tellurium test scripts. The tests are run by acting on the application window directly instead of loading up the application in an iFrame like Selenium does. The test driving engine is powered totally by Tellurium new engine, which is based on jQuery and tellurium UI module group locating algorithm. 
 
 = Summary =
 
-Tellurium IDE is our first step to automatically generate Tellurium test script, which is different from Selenium test script. The former one does not use locator directly but use UI module to define the UI widget, then use Tellurium framework to locate the UI module, which makes Tellurium robust to changes and expressive. Thus, Tellurium IDE does not suffer the problems that other record and replay IDEs faced. Tellurium IDE is a work in progress. If you like it and want to contribute to it. Please contact me directly. Thanks in advance.
+Tellurium IDE is our first step to automatically generate Tellurium test script, which is different from Selenium test script. The former one does not use locator directly but use UI module to define the UI widget, then use Tellurium framework to locate the UI module, which makes Tellurium robust to changes and expressive. Thus, Tellurium IDE does not suffer the recorded test robust problem that other "record and replay" type of IDEs faced. Tellurium IDE is a work in progress. If you like it and want to contribute to it. Please contact me directly. Thanks in advance.
 
 = Resources =
 
