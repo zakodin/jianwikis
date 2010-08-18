@@ -48,7 +48,7 @@ The former gets back the most recent window and the latter returns all applicati
 
 == Event Listeners for recording ==
 
-To record user's actions such as type and click, we need to register event listeners and deregister them when the recording is done. In Tellurium IDE, we used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web element exists, which greatly simplified our design and implementation.
+To record user's actions such as type and click, we need to register event listeners and unregister them when the recording is done. In Tellurium IDE, we used [http://api.jquery.com/live/ jQuery live API] to preregister the event listeners even before the web element exists, which greatly simplified our design and implementation.
 
 {{{
 Recorder.prototype.attachActionListeners = function(window){
@@ -93,4 +93,19 @@ Recorder.prototype.typeListener = function(event) {
     }
 };
 
+}}}
+
+To unregister the event listeners, we used [http://api.jquery.com/die jQuery die API].
+
+{{{
+Recorder.prototype.detachActionListeners = function(window){
+    logger.debug("Detaching listeners for action...");
+
+    teJQuery(window.document).find("input, a, p, link, select, textarea, button, table, tr, td, th, div, span, label").die("change", this.typeListener);
+    teJQuery(window.document).find("input, a, p, link, select, textarea, button, table, tr, td, th, div, span, label").die("click", this.clickListener);
+    teJQuery(window.document).find("input, a, p, link, textarea, button, table, tr, td, th, div, span, label").die("mousedown", this.rememberClickedListener);
+    teJQuery(window.document).find("select, option").die("focus", this.selectFocusListener);
+    teJQuery(window.document).find("select, option").die("mousedown", this.selectMousedownListener);
+    teJQuery(window.document).find("select, option").die("change", this.selectListener);
+};
 }}}
