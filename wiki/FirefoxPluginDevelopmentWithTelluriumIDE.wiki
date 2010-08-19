@@ -262,6 +262,10 @@ Be aware, I need to pass the root DOM element or application document in jQuery 
 
 The test-runner.js is the test runner to play recorded Tellurium test scripts. The tests are run by acting on the application window directly instead of loading up the application in an iFrame like Selenium does. The test driving engine is powered totally by Tellurium new engine, which is based on jQuery and tellurium UI module group locating algorithm. 
 
+== Debug ==
+
+Firefox plugin development needs a good debug tool, I would suggest [http://www.mozilla.org/projects/venkman/ Venkman JavaScript debugger]. You unselect "exclude browser files" in the option. After the Firefox plugin is loaded up, you can see all the JavaScript files in Venkman. You can set breakpoints to debug your code. 
+
 = Summary =
 
 Tellurium IDE is our first step to automatically generate Tellurium test script, which is different from Selenium test script. The former one does not use locator directly but use UI module to define the UI widget, then use Tellurium framework to locate the UI module, which makes Tellurium robust to changes and expressive. Thus, Tellurium IDE does not suffer the recorded test robust problem that other "record and replay" type of IDEs faced. Tellurium IDE is a work in progress. If you like it and want to contribute to it. Please contact me directly. Thanks in advance.
