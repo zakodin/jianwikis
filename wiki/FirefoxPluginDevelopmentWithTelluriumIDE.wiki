@@ -80,7 +80,7 @@ Recorder.prototype.attachActionListeners = function(window){
 
 }}}
 
-where _teJQuery_ is an alias for _jQuery_ to avoid name conflict with _jQuery_ in application, which could be in a different version. Also, I noticed that the "beforeunload" event is kinda of special and I have to register it in a regular way.
+where _teJQuery_ is an alias for _jQuery_ to avoid name conflict with _jQuery_ in application, which could be in a different version. Also, I noticed that the "beforeunload" event is kinda of special and I have to register it in a traditional way.
 
 You may also noticed that I passed event data such as {{{recorder: this}}}, which is a very elegant way to pass in the recorder object to the event handler. The event handler retrieves the event data and gets hold of the recorder object as follows.
 
