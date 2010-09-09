@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="org.netbeansrcp.tasklog">
+    <module_version install_time="1283886203545" last="true" origin="installer" specification_version="1.0">
+        <file crc="2781473662" name="config/Modules/org-netbeansrcp-tasklog.xml"/>
+        <file crc="173172415" name="modules/org-netbeansrcp-tasklog.jar"/>
+    </module_version>
+</module>

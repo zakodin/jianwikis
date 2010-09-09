@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="com.netbeansrcp.helloservice">
+    <module_version install_time="1283886201735" last="true" origin="installer" specification_version="2.1.5">
+        <file crc="2726600994" name="config/Modules/com-netbeansrcp-helloservice.xml"/>
+        <file crc="2620173471" name="modules/com-netbeansrcp-helloservice.jar"/>
+    </module_version>
+</module>

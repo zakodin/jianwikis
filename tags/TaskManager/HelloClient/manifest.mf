@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: com.netbeansrcp.helloclient
+OpenIDE-Module-Localizing-Bundle: com/netbeansrcp/helloclient/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
