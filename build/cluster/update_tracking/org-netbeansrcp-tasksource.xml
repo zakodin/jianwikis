@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="org.netbeansrcp.tasksource">
+    <module_version install_time="1283886203100" last="true" origin="installer" specification_version="1.0">
+        <file crc="4057677754" name="config/Modules/org-netbeansrcp-tasksource.xml"/>
+        <file crc="1081916459" name="modules/org-netbeansrcp-tasksource.jar"/>
+    </module_version>
+</module>

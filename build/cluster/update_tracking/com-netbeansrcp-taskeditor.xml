@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="com.netbeansrcp.taskeditor">
+    <module_version install_time="1283886202553" last="true" origin="installer" specification_version="1.0">
+        <file crc="2872028595" name="config/Modules/com-netbeansrcp-taskeditor.xml"/>
+        <file crc="3510913062" name="modules/com-netbeansrcp-taskeditor.jar"/>
+    </module_version>
+</module>

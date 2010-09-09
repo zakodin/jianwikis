@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="com.netbeansrcp.helloclient">
+    <module_version install_time="1283886201877" last="true" origin="installer" specification_version="1.0">
+        <file crc="3309290761" name="config/Modules/com-netbeansrcp-helloclient.xml"/>
+        <file crc="2479640100" name="modules/com-netbeansrcp-helloclient.jar"/>
+    </module_version>
+</module>

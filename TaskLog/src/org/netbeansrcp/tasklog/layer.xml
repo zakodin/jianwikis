@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-netbeansrcp-tasklog-TaskLogAction.instance">
+                <attr name="component" methodvalue="org.netbeansrcp.tasklog.TaskLogTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.netbeansrcp.tasklog.Bundle#CTL_TaskLogAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="TaskLogAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-netbeansrcp-tasklog-TaskLogAction.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="TaskLogTopComponent.settings" url="TaskLogTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="properties">
+                <file name="TaskLogTopComponent.wstcref" url="TaskLogTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>
