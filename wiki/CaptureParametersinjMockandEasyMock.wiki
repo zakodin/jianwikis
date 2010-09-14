@@ -115,3 +115,10 @@ scannedHandler.identifierScanned();
 
 EasyMock.verify(adapter, model);
 }}}
+
+= Resources = 
+
+  * [http://en.wikipedia.org/wiki/Model-view-presenter Model-view-presenter (MVP)]
+  * [http://easymock.org/ EasyMock]
+  * [http://www.slideshare.net/subin123/easymock-tutorial EasyMock Tutorial]
+  * [http://www.jmock.org/ jMock]
