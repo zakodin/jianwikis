@@ -108,7 +108,7 @@ After that, I can call on the handlers directly.
 
 {{{
 EasyMock.expect(adapter.getScanned()).andReturn(identifier).once();
-model.retrieve(identifier);
+model.retrieveShipment(identifier);
 EasyMock.expectLastCall().once();
 EasyMock.replay(adapter, model);
 scannedHandler.identifierScanned(); 
