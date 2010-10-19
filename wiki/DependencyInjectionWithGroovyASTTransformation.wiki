@@ -376,5 +376,38 @@ class MockInjector extends AbstractInjector {
 
 = Usage =
 
+Please download Tellurium Groovy dependency injection module tellurium-injector from the following url.
+
+[http://aost.googlecode.com/files/tellurium-injector-0.8.0-SNAPSHOT.tar.gz]
+
+Or add the following Maven dependency:
+
+{{{
+         <dependency>
+            <groupId>org.telluriumsource</groupId>
+            <artifactId>tellurium-injector</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+}}}
+
+You may also need to add the following Maven repository to your Maven settings.xml or your pom file.
+
+{{{
+        <repository>
+            <id>kungfuters-public-snapshots-repo</id>
+            <name>Kungfuters Public Snapshots</name>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <url>http://maven.kungfuters.org/content/repositories/snapshots</url>
+        </repository>
+
+}}}
+
+
 = Resources =
  
