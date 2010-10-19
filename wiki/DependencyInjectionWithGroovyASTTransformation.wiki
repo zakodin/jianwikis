@@ -1,0 +1,4 @@
+#summary Dependency Injection with Groovy AST Transformation.
+#labels Phase-Design
+
+= Introduction =
