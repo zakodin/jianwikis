@@ -8,6 +8,7 @@ introduce how to use Groovy AST Transformation for simple dependency injection. 
 idea is to change the Groovy class source code at compile time to wire in the dependence.
 
 = Implementation =
+
 == Dependence Provider ==
 
 First, need to define the dependency provider so that the framework know which instance 
@@ -490,7 +491,7 @@ You may also need to add the following Maven repository to your Maven settings.x
 
 == Example ==
 
-Tellurium core uses the Groovy dependency injection module to wire the framework. We like to show you how we use the dependency injection framework in tellurium core.
+Tellurium core uses the Groovy dependency injection module to wire the framework. We like to show you how we use the dependency injection framework in tellurium core. Be aware that the framework only works for Groovy class, not Java class
 
 The Tellurium core injector simply extends the AbstractInjector class.
 
