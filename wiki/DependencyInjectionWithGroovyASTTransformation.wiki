@@ -597,8 +597,6 @@ class UiDslParser extends BuilderSupport{
        @Inject(name="i18nBundle", lazy=true)
        protected IResourceBundle i18nBundle
 
-       def registry = [:]
-
        @Inject
        protected UiObjectBuilderRegistry builderRegistry
 ...
@@ -606,17 +604,14 @@ class UiDslParser extends BuilderSupport{
 }}}
 
 Be aware, runtime environment is used to wire in input variables. For example,
-values of the variable port and useMultiWindows option are from Tellurium configuration
-file instead of the bean factory. 
+values of the variable port and useMultiWindows option are obtained from Tellurium configuration
+file instead of the bean factory.
+ 
 {{{
 class EmbeddedSeleniumServer implements Configurable{
 
-    private SeleniumServerDaemon daemon;
-
     @Inject(name="tellurium.embeddedserver.port")
     protected int port = 4444;
-
-    protected String logFile = "selenium.log";
 
     @Inject(name="tellurium.embeddedserver.useMultiWindows")
     protected boolean useMultiWindows = false;
@@ -630,4 +625,9 @@ To see the whole example, please check out tellurium core project from
 http://aost.googlecode.com/svn/branches/trunk-0.8.0/core
 
 = Resources =
+
+  * [http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations Compile-time Metaprogramming - AST Transformations]
+  * [http://groups.google.com/group/tellurium-users Tellurium User Group]
+  * [http://twitter.com/TelluriumSource Tellurium on Twitter]
+  * [http://code.google.com/p/aost/wiki/TelluriumIde080RC1 Tellurium IDE]
  
