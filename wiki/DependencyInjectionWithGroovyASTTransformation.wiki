@@ -137,6 +137,43 @@ public interface SessionAwareBeanFactory {
 }
 }}}
 
+== Input or Environment Variables ==
+
+Sometimes, we need to inject input data or environment variable to classes. We provided a Lookup interface for you to implement your own class to provide this type of data.
+
+{{{
+public interface Lookup {
+
+    boolean has(String name);
+    
+    Object getByName(String name);
+
+    <T> T getByClass(Class<T> clazz);
+}
+
+}}}
+
+For example, we can define the run time environment as follows for Tellurium.
+
+{{{
+public class RuntimeEnvironment implements Lookup, Cloneable {
+
+    private Map<String, Object> map = new HashMap<String, Object>();
+
+    public Object getByName(String name) {
+        return map.get(name);
+    }
+
+    public <T> T getByClass(Class<T> clazz) {
+        return (T)map.get(clazz.getCanonicalName());
+    }
+
+    ...
+}
+}}}
+
+Then we can use the key of the map for dependency injection.
+
 == Inject Dependency ==
 
 The @Inject annotation is used on fields to introduce dependency injection.
@@ -212,6 +249,129 @@ public class InjectASTTransformation implements ASTTransformation, Opcodes {
 }}}
 
 To inject a variable, simply add the value assignment to its constructor. For lazy wiring, we use the same way the Groovy @Lazy AST transformation does, i.e., rename the field variable and add a getter to the class.
+
+== Injector ==
+
+The injector is the actual class to handle all the injection work. The injector must be annotated with the @Injector annotation and you should only have one injector for your project.
+
+{{{
+@Retention(RetentionPolicy.SOURCE)
+@Target({ElementType.TYPE})
+@GroovyASTTransformationClass("org.telluriumsource.ast.InjectorASTTransformation")
+public @interface Injector {
+}
+
+}}}
+
+The @Injector AST Transformation will change the injector to a Groovy singleton class and record the compile time class node for the injector.
+
+{{{
+@GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
+public class InjectorASTTransformation implements ASTTransformation, Opcodes {
+    private static final ClassNode INJECTOR = new ClassNode(Injector.class);
+    private static ClassNode injector = null;
+
+    public static ClassNode getInjector(){
+        return injector;
+    }
+    public void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
+        if (nodes.length != 2 || !(nodes[0] instanceof AnnotationNode) || !(nodes[1] instanceof AnnotatedNode)) {
+            throw new RuntimeException("Internal error: expecting [AnnotationNode, AnnotatedNode] but got: " + Arrays.asList(nodes));
+        }
+
+        AnnotatedNode parent = (AnnotatedNode) nodes[1];
+        AnnotationNode node = (AnnotationNode) nodes[0];
+        if (!INJECTOR.equals(node.getClassNode()))
+            return;
+        
+        ClassNode clazzNode = (ClassNode)parent;
+            
+        if(AbstractInjector.class.getCanonicalName().equals(clazzNode.getSuperClass().getName())){
+            injector = clazzNode;
+            createNonLazy(clazzNode);
+        }
+    }
+...
+}
+}}}
+
+Be aware that Groovy AST transformation is a compile-time weaving, thus, you need to defined your own injector in your Groovy project. We defined a base injector for users to extend.
+
+{{{
+abstract class AbstractInjector implements SessionAwareBeanFactory {
+
+  private Map<String, Lookup> sLookup = new HashMap<String, Lookup>();
+
+  private SessionAwareBeanFactory beanFactory = new DefaultSessionAwareBeanFactory();
+
+  public abstract String getCurrentSessionId();
+
+  public void addLookupForSession(String sessionId, Lookup lookup){
+    this.sLookup.put(sessionId, lookup);
+  }
+
+  public void addBeanInfo(String name, Class clazz, Class concrete, String scope, boolean singleton){
+    
+    addBean(name, clazz, concrete, Scope.valueOf(scope), singleton, null);
+  }
+
+  public Object getByName(String name) {
+    Lookup lookup = this.sLookup.get(this.getCurrentSessionId());
+    if(lookup != null && lookup.has(name)){
+      return lookup.getByName(name);
+    }
+
+    return this.beanFactory.getByName(this.getCurrentSessionId(), name);
+  }
+
+  public <T> T getByClass(Class<T> clazz) {
+    return this.beanFactory.getByClass(this.getCurrentSessionId(), clazz);
+  }
+
+  public void addBean(String name, Class clazz, Class concrete, Scope scope, boolean singleton, Object instance) {
+    this.beanFactory.addBean(this.getCurrentSessionId(), name, clazz, concrete, scope, singleton, instance);
+  }
+
+  public List<Bean> getAllBeans() {
+    return this.beanFactory.getAllBeans();
+  }
+
+  public void destroy() {
+    this.beanFactory.destroy();
+  }
+
+  public void addBean(String sessionId, String name, Class clazz, Class concrete, Scope scope, boolean singleton, Object instance) {
+    this.beanFactory.addBean(sessionId, name, clazz, concrete, scope, singleton, instance);
+  }
+
+  public <T> T getByClass(String sessionId, Class<T> clazz) {
+    return this.beanFactory.getByClass(sessionId, clazz)
+  }
+
+  public Object getByName(String sessionId, String name) {
+    Lookup lookup = this.sLookup.get(sessionId);
+    if(lookup != null && lookup.has(name)){
+      return lookup.getByName(name);
+    }
+
+    return this.beanFactory.getByName(sessionId, name);
+  }
+...
+}
+}}}
+
+To define your own injector, simply extend the AbstractInjector class and add the @Injector annotation to it. For example,
+
+{{{
+@Injector
+class MockInjector extends AbstractInjector {
+  private static final String DEFAULT = "default";
+
+  String getCurrentSessionId() {
+    return DEFAULT;
+  }
+}
+}}}
 
 
 = Usage =
