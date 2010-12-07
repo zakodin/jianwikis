@@ -6,7 +6,15 @@
 
 [http://en.wikipedia.org/wiki/Circuit_breaker_design_pattern Circuit Breaker] is a design pattern used to detect failures and encapsulates logic of preventing a failure to reoccur constantly. Circuit breaker detects failures and prevents the application from trying to perform the action that is doomed to fail.
 
-The circuit breaker mechanism can be illustrated by the following flow.
+The circuit breaker has the following three states.
+
+{{{
+public enum CircuitStateCode {
+    CLOSED,
+    HALF_OPEN,
+    OPEN
+}
+}}}
 
   * When the application starts, it is in the closed state
   * If failure threshold reaches, it goes to the open state
@@ -55,16 +63,6 @@ public enum CircuitPolicyCode {
 
 That is to say, the circuit breaker could be controlled by one or more policies. The OPEN_FOREVER and CLOSE_FOREVER are used to put the circuit breaker in a permanent state. Obviously, the maxFailures, maxCapacity, and methodExecutionTimeout 
 are parameters for policy MAX_FAILURES, MAX_CAPACITY, and MAX_EXECUTION_TIME, respectively.
-
-The circuit breaker states are presented by the following enum.
-
-{{{
-public enum CircuitStateCode {
-    CLOSED,
-    HALF_OPEN,
-    OPEN
-}
-}}}
 
 If the publishEvent parameter is true, the circuit breaker will publish the following JMX events when state changes.
 
