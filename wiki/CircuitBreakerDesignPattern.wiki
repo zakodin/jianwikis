@@ -110,7 +110,7 @@ public class CircuitBreakerInterceptorImpl {
         this.registry = registry;
     }
 
-    @Pointcut("@annotation(com.jtv.component.annotation.CB)")
+    @Pointcut("@annotation(org.telluriumsource.component.annotation.CB)")
     public void circuitExecution() {}
 
     @Around("circuitExecution()")
@@ -454,7 +454,7 @@ Usually, we need to manage circuit breakers via JMX beans. We create a manager c
 
 {{{
 @ManagedResource(
-        objectName = "com.jtv.component.jmx:name=CircuitBreakerManager",
+        objectName = "org.telluriumsource.component.jmx:name=CircuitBreakerManager",
         description = "Circuit breaker manager")
 public class CircuitBreakerManagerMBean {
 
@@ -509,7 +509,7 @@ I also defined a JMX notification publisher to publish circuit breaker JMX event
 
 {{{
 @ManagedResource(
-        objectName = "com.jtv.component.jmx:name=CircuitBreakerNotificationPublisher",
+        objectName = "org.telluriumsource.component.jmx:name=CircuitBreakerNotificationPublisher",
         description = "Circuit breaker Notification Publisher")
 public class CircuitBreakerNotificationPublisher implements EventListener, NotificationPublisherAware {
     private boolean active = true;
@@ -543,7 +543,7 @@ One example JMX notification listener is the LoggingNotificationListener.
 
 {{{
 @ManagedResource(
-        objectName = "com.jtv.component.jmx:name=LoggingNotificationListener",
+        objectName = "org.telluriumsource.component.jmx:name=LoggingNotificationListener",
         description = "Circuit breaker Notification Logger")
 public class LoggingNotificationListener implements NotificationListener, NotificationFilter {
     private static Log log = LogFactory.getLog(LoggingNotificationListener.class);
@@ -823,7 +823,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
     
     <context:annotation-config/>
     
-    <context:component-scan  base-package="com.jtv.component"/>
+    <context:component-scan  base-package="org.telluriumsource.component"/>
 
     <!-- Advice -->
     <aop:aspectj-autoproxy/>
