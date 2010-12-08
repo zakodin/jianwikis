@@ -450,7 +450,7 @@ public class CircuitBreakerFactoryBean implements FactoryBean, InitializingBean 
 
 == JMX Manager Bean ==
 
-Usually, we need to manage circuit breakers via JMX beans. We create a manager class for this purpose.
+Usually, we need to manage circuit breakers via JMX beans. I create a manager class for this purpose.
 
 {{{
 @ManagedResource(
@@ -662,7 +662,7 @@ public class ThreadPoolImpl implements ThreadPool, CapacityAwareService {
         throw new RuntimeException("Always fails");
     }
 
-    @CB(id="always", policies ={"OPEN_FOREVER"})
+    @CB(id="never", policies ={"OPEN_FOREVER"})
     public void never() {
             
     }
