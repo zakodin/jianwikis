@@ -1,0 +1,304 @@
+#summary JasperReport for Invoice Generation.
+#labels Phase-Design,Phase-Implementation
+
+= Introduction =
+JasperReports could be used to generate company Invoice from JasperReports template files and XML data source.
+
+= JasperReports Templates =
+
+[http://jasperforge.org/plugins/mwiki/index.php/Ireport iReport] can be used to create Jasper template.
+
+One interesting problem is how to embed image file in XML data source. I followed most of [http://rgauss.com/2009/12/21/jasperreports-xml-datasource-with-inline-images/ this post] and created the following sections in the template file.
+
+<pre>
+	<variable name="slImageBytes" class="java.awt.Image">
+		<variableExpression><![CDATA[ImageIO.read(new ByteArrayInputStream(new Base64().decodeBase64($F{slImage}.getBytes("UTF-8"))))]]></variableExpression>
+	</variable>
+
+        ......
+
+	<image>
+		<reportElement x="405" y="388" width="357" height="139"/>
+		<imageExpression class="java.awt.Image"><![CDATA[$V{slImageBytes}]]></imageExpression>
+	</image>
+
+</pre>
+
+The image can encoded in base64 format.
+
+<pre>
+    <smartlabel>
+        <![CDATA[
+iVBORw0KGgoAAAANSUhEUgAAA6QAAAGdCAYAAAAFVb6RAAAC7mlDQ1BJQ0MgUHJvZmlsZQAAeAGF
+VM9rE0EU/jZuqdAiCFprDrJ4kCJJWatoRdQ2/RFiawzbH7ZFkGQzSdZuNuvuJrWliOTi0SreRe2h
+B/+AHnrwZC9KhVpFKN6rKGKhFy3xzW5MtqXqwM5+8943731vdt8ADXLSNPWABOQNx1KiEWlsfEJq
+/IgAjqIJQTQlVdvsTiQGQYNz+Xvn2HoPgVtWw3v7d7J3rZrStpoHhP1A4Eea2Sqw7xdxClkSAog8
+36Epx3QI3+PY8uyPOU55eMG1Dys9xFkifEA1Lc5/TbhTzSXTQINIOJT1cVI+nNeLlNcdB2luZsbI
+EL1PkKa7zO6rYqGcTvYOkL2d9H5Os94+wiHCCxmtP0a4jZ71jNU/4mHhpObEhj0cGDX0+GAVtxqp
++DXCFF8QTSeiVHHZLg3xmK79VvJKgnCQOMpkYYBzWkhP10xu+LqHBX0m1xOv4ndWUeF5jxNn3tTd
+...
+        ]]>
+    </smartlabel>
+</pre>
+
+= Maven =
+
+To create a Maven project for JasperReports, we need the following plugin in our pom.xml.
+
+<pre>
+   <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>target/jasper</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jasperreports-maven-plugin</artifactId>
+                <configuration>
+                    <compiler>net.sf.jasperreports.compilers.JRGroovyCompiler</compiler>
+                    <outputDirectory>${project.build.directory}/jasper</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile-reports</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>jasperreports</groupId>
+                        <artifactId>jasperreports</artifactId>
+                        <version>3.7.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                        <version>1.2.15</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>javax.mail</groupId>
+                                <artifactId>mail</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>javax.jms</groupId>
+                                <artifactId>jms</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>com.sun.jdmk</groupId>
+                                <artifactId>jmxtools</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>com.sun.jmx</groupId>
+                                <artifactId>jmxri</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>1.7.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</pre>
+
+= Invoice Component =
+
+I created an Invoice component project so that it can be packaged as a jar file for people to use.
+
+The API is defined as follows.
+
+<pre>
+public interface InvoiceService {
+
+    void generateInvoice(String id, ReportType type, String inputFile);
+    void generateInvoice(String id, ReportType type, Document inputDoc);
+}
+</pre>
+
+where ReportType is the type of different invoice templates, for example.
+
+<pre>
+public enum ReportType {
+    REGULAR,
+    GIFT,
+    SPECIAL
+}
+</pre>
+
+
+The implementation class is InvoiceServiceImpl.
+
+<pre>
+public class InvoiceServiceImpl implements InvoiceService {
+
+    private String inputFileDir;
+
+    private String outputFileDir;
+
+    private int poolSize;
+
+    private Map<String, String> typeMapping;
+
+    private Map<ReportType, JasperReportPool> pool;
+
+    public InvoiceServiceImpl(String inputFileDir, String outputFileDir, int poolSize, Map<String, String> typeMapping) {
+        this.inputFileDir = inputFileDir;
+        this.outputFileDir = outputFileDir;
+        this.poolSize = poolSize;
+        this.typeMapping = typeMapping;
+        this.pool = new HashMap<ReportType, JasperReportPool>();
+        createJasperReportPool();
+    }
+......
+
+
+    public void generateInvoice(String id, ReportType type, String inputFile) {
+        try{
+            Document document= JRXmlUtils.parse(JRLoader.getLocationInputStream(inputFile));
+            this.generateInvoice(id, type, document);
+        } catch (JRException e) {
+            throw new InvoiceGenerationException(e);
+        }
+    }
+
+    public void generateInvoice(String id, ReportType type, Document document) {
+        String threadName = Thread.currentThread().getName();
+        log.debug(threadName + " -> Generating invoice for id: " + id + ", type: " + type );
+        JasperReportPool jrPool = pool.get(type);
+        if(jrPool == null){
+            log.error("Cannot find JasperReport pool for type " + type);
+            throw new InvoiceGenerationException("Cannot find JasperReport pool for type " + type);
+        }
+
+        try {
+            Map params = new HashMap();
+            params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+            params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.ENGLISH);
+            params.put(JRParameter.REPORT_LOCALE, Locale.US);
+
+            //get a pooled JasperReport object
+            JasperReport report = jrPool.getFromPool();
+
+            if(report == null){
+                log.warn(threadName + " -> Cannot find a polled JasperReport object, have to create one from scratch");
+                //cannot find a pooled JasperReport object, have to create one from scratch
+                String template = inputFileDir + "/" + typeMapping.get(type.toString());
+                JasperDesign jasperDesign = JRXmlLoader.load(template);
+                report = JasperCompileManager.compileReport(jasperDesign);
+            }else{
+                log.debug(threadName + " -> Found a pooled JasperReport object");
+            }
+
+            log.debug(threadName + " -> Filling report...");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, params);
+            log.debug(threadName + " -> Exporting to pdf file " + id + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, outputFileDir + "/" + id + ".pdf");
+            //add the report back to the pool
+            boolean succeeded = jrPool.addToPool(report);
+            if(succeeded){
+                log.debug(threadName + " -> Adding JasperReport object back to pool");
+            }else{
+                log.debug(threadName + " -> Pool is full, discard JasperReport object");
+            }
+
+
+        } catch (JRException e) {
+            log.error(threadName + " -> Error generating invoice: " + e.getMessage());
+            throw new InvoiceGenerationException(e);
+        }
+    }
+}
+</pre>
+
+As you can see, I used a pool to cache a predefined number of JasperReport objects for each invoice template. In this way, we can improve the speed for multiple thread processing.
+
+The JasperReportPool is pretty straightforward and it is a current queue.
+
+<pre>
+public class JasperReportPool {
+
+    private int max;
+
+    private ConcurrentLinkedQueue<JasperReport> pool;
+
+    ......
+
+    public synchronized boolean addToPool(JasperReport report){
+        if(pool.size() < max){
+            pool.add(report);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public JasperReport getFromPool(){
+        return pool.poll();
+    }
+}
+</pre>
+
+= Testing =
+
+To test the Invoice component, I used TestNG to run the test with multiple threads.
+
+<pre>
+
+public class InvoiceImpl_FuncTest {
+    
+    private static InvoiceService invoiceService;
+    private static InvoiceService invoiceServiceStress;
+    private static AtomicInteger seed = new AtomicInteger(1000);
+    private static long start;
+    private static long end;
+
+    @BeforeClass
+    public static void setUp(){
+        String currentDir = new File(".").getAbsolutePath();
+        Map<String, String> typeMapping = new HashMap<String, String>();
+        typeMapping.put("TE", "half-pg-landscape.jrxml");
+
+        invoiceService = new InvoiceServiceImpl(currentDir + "/src/main/jasperreports", currentDir + "/target/jasper", 5, typeMapping);
+
+
+    @AfterClass
+    public void end(){
+        end = System.nanoTime();
+        System.out.println("Test took " + ((end - start) / 1E6) + " milliseconds" );
+    }
+
+    private static String getId(){
+        return "Test-" + seed.getAndIncrement();
+    }
+
+    @Test(threadPoolSize = 5, invocationCount = 10)
+    public void testBounded() {
+        String currentDir = new File(".").getAbsolutePath();
+        String inputFile = currentDir + "/target/test-classes/com/jtv/invoice/impl/order_half_pg.xml";
+        invoiceService.generateInvoice(getId(), ReportType.REGULAR, inputFile);
+    }
+
+    ......
+}
+</pre>
