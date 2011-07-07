@@ -219,7 +219,9 @@ Similarly, we could achieve the same goal by using the following Spring configur
 
 To test the embedded Jetty application, we can use the following Spring http remoting client.
 
-{{{<?xml version="1.0" encoding="UTF-8"?>
+{{{
+
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
