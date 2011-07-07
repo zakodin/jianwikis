@@ -213,3 +213,70 @@ Similarly, we could achieve the same goal by using the following Spring configur
 
 </beans>
 }}}
+
+= Client =
+
+To test the embedded Jetty application, we can use the following Spring http remoting client.
+
+{{{<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="httpRemotingHelloService"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl"
+			value="http://localhost:8087/HelloService">
+		</property>
+		<property name="serviceInterface"
+			value="com.mycompany.service.iface.HelloService">
+		</property>
+	</bean>
+
+</beans>
+
+}}}
+
+Test case
+
+{{{
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/com/mycompany/service/HelloServiceClient_FuncTest.xml"})
+public class HelloServiceClient_FuncTest {
+    @Autowired
+    @Qualifier("httpRemotingHelloService")
+    private HelloService helloService;
+
+    @Test
+    public void testSayHello(){
+        String hello = helloService.sayHello("John");
+        assertNotNull(hello);
+        System.out.println("sayHello: " + hello);
+    }
+}
+}}}
+
+
+The HelloService interface is defined as
+
+{{{
+public interface HelloService {
+
+    String sayHello(String name);
+
+}
+}}}
+
+and the implementation is simple.
+
+{{{
+public class HelloServiceImpl implements HelloService {
+
+    public String sayHello(String name) {
+        return "Hello " + name + "!";
+    }
+}
+
+}}}
