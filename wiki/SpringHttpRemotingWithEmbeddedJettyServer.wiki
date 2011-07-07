@@ -80,7 +80,7 @@ The code is similar to the above jetty code, but it uses a DispatcherServlet ins
             Context context = new Context(server, "/", Context.SESSIONS);
 
             DispatcherServlet dispatcherServlet = new DispatcherServlet();
-            dispatcherServlet.setContextConfigLocation("classpath:WEB-INF/DefaultServlet-servlet.xml");
+            dispatcherServlet.setContextConfigLocation("classpath:com/mycompany/config/DefaultServlet-servlet.xml");
 
             ServletHolder servletHolder = new ServletHolder(dispatcherServlet);
             context.addServlet(servletHolder, "/*")
@@ -179,7 +179,7 @@ Similarly, we could achieve the same goal by using the following Spring configur
                                   </property>
                                   <property name="initParameters">
                                     <map>
-                                        <entry key="contextConfigLocation" value="classpath:WEB-INF/DefaultServlet-servlet.xml" />
+                                        <entry key="contextConfigLocation" value="classpath:com/mycompany/config/DefaultServlet-servlet.xml" />
                                     </map>
                                   </property>
                                 </bean>
