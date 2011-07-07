@@ -1,5 +1,6 @@
+#summary Spring http remoting with embedded Jetty server.
 #labels Phase-Implementation
-#Spring http remoting with embedded Jetty server.
+<wiki:toc max_depth="3" />
 
 = Introduction =
 
